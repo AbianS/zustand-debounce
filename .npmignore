@@ -1,0 +1,7 @@
+node_modules
+*.log
+src
+.babelrc
+.prettierrc
+tsconfig.json
+pnpm-lock.yaml
