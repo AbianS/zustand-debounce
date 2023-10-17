@@ -2,6 +2,8 @@
 
 zustand-debounce is a library that extends the capabilities of [Zustand](https://github.com/pmndrs/zustand) to provide a JSON state storage system with delayed (debounced) writing to storage. With this tool, you can reduce the number of write operations to storage by delaying and grouping them.
 
+✅ 🐙 Lightweight!! 3.3 kB gzipped.
+
 ✅ 🚀 Easy integration into your projects.
 
 ✅ 🕒 Customize the debounce time according to your needs.
