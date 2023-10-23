@@ -20,6 +20,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.8.6
     version: 20.8.6
+  babel-preset-minify:
+    specifier: ^0.5.2
+    version: 0.5.2
   prettier:
     specifier: ^3.0.3
     version: 3.0.3
@@ -1320,6 +1323,99 @@ packages:
     dev: true
     optional: true
 
+  /babel-helper-evaluate-path@0.5.0:
+    resolution: {integrity: sha512-mUh0UhS607bGh5wUMAQfOpt2JX2ThXMtppHRdRU1kL7ZLRWIXxoV2UIV1r2cAeeNeU1M5SB5/RSUgUxrK8yOkA==}
+    dev: true
+
+  /babel-helper-flip-expressions@0.4.3:
+    resolution: {integrity: sha512-rSrkRW4YQ2ETCWww9gbsWk4N0x1BOtln349Tk0dlCS90oT68WMLyGR7WvaMp3eAnsVrCqdUtC19lo1avyGPejA==}
+    dev: true
+
+  /babel-helper-is-nodes-equiv@0.0.1:
+    resolution: {integrity: sha512-ri/nsMFVRqXn7IyT5qW4/hIAGQxuYUFHa3qsxmPtbk6spZQcYlyDogfVpNm2XYOslH/ULS4VEJGUqQX5u7ACQw==}
+    dev: true
+
+  /babel-helper-is-void-0@0.4.3:
+    resolution: {integrity: sha512-07rBV0xPRM3TM5NVJEOQEkECX3qnHDjaIbFvWYPv+T1ajpUiVLiqTfC+MmiZxY5KOL/Ec08vJdJD9kZiP9UkUg==}
+    dev: true
+
+  /babel-helper-mark-eval-scopes@0.4.3:
+    resolution: {integrity: sha512-+d/mXPP33bhgHkdVOiPkmYoeXJ+rXRWi7OdhwpyseIqOS8CmzHQXHUp/+/Qr8baXsT0kjGpMHHofHs6C3cskdA==}
+    dev: true
+
+  /babel-helper-remove-or-void@0.4.3:
+    resolution: {integrity: sha512-eYNceYtcGKpifHDir62gHJadVXdg9fAhuZEXiRQnJJ4Yi4oUTpqpNY//1pM4nVyjjDMPYaC2xSf0I+9IqVzwdA==}
+    dev: true
+
+  /babel-helper-to-multiple-sequence-expressions@0.5.0:
+    resolution: {integrity: sha512-m2CvfDW4+1qfDdsrtf4dwOslQC3yhbgyBFptncp4wvtdrDHqueW7slsYv4gArie056phvQFhT2nRcGS4bnm6mA==}
+    dev: true
+
+  /babel-plugin-minify-builtins@0.5.0:
+    resolution: {integrity: sha512-wpqbN7Ov5hsNwGdzuzvFcjgRlzbIeVv1gMIlICbPj0xkexnfoIDe7q+AZHMkQmAE/F9R5jkrB6TLfTegImlXag==}
+    dev: true
+
+  /babel-plugin-minify-constant-folding@0.5.0:
+    resolution: {integrity: sha512-Vj97CTn/lE9hR1D+jKUeHfNy+m1baNiJ1wJvoGyOBUx7F7kJqDZxr9nCHjO/Ad+irbR3HzR6jABpSSA29QsrXQ==}
+    dependencies:
+      babel-helper-evaluate-path: 0.5.0
+    dev: true
+
+  /babel-plugin-minify-dead-code-elimination@0.5.2:
+    resolution: {integrity: sha512-krq9Lwi0QIzyAlcNBXTL4usqUvevB4BzktdEsb8srcXC1AaYqRJiAQw6vdKdJSaXbz6snBvziGr6ch/aoRCfpA==}
+    dependencies:
+      babel-helper-evaluate-path: 0.5.0
+      babel-helper-mark-eval-scopes: 0.4.3
+      babel-helper-remove-or-void: 0.4.3
+      lodash: 4.17.21
+    dev: true
+
+  /babel-plugin-minify-flip-comparisons@0.4.3:
+    resolution: {integrity: sha512-8hNwgLVeJzpeLVOVArag2DfTkbKodzOHU7+gAZ8mGBFGPQHK6uXVpg3jh5I/F6gfi5Q5usWU2OKcstn1YbAV7A==}
+    dependencies:
+      babel-helper-is-void-0: 0.4.3
+    dev: true
+
+  /babel-plugin-minify-guarded-expressions@0.4.4:
+    resolution: {integrity: sha512-RMv0tM72YuPPfLT9QLr3ix9nwUIq+sHT6z8Iu3sLbqldzC1Dls8DPCywzUIzkTx9Zh1hWX4q/m9BPoPed9GOfA==}
+    dependencies:
+      babel-helper-evaluate-path: 0.5.0
+      babel-helper-flip-expressions: 0.4.3
+    dev: true
+
+  /babel-plugin-minify-infinity@0.4.3:
+    resolution: {integrity: sha512-X0ictxCk8y+NvIf+bZ1HJPbVZKMlPku3lgYxPmIp62Dp8wdtbMLSekczty3MzvUOlrk5xzWYpBpQprXUjDRyMA==}
+    dev: true
+
+  /babel-plugin-minify-mangle-names@0.5.1:
+    resolution: {integrity: sha512-8KMichAOae2FHlipjNDTo2wz97MdEb2Q0jrn4NIRXzHH7SJ3c5TaNNBkeTHbk9WUsMnqpNUx949ugM9NFWewzw==}
+    dependencies:
+      babel-helper-mark-eval-scopes: 0.4.3
+    dev: true
+
+  /babel-plugin-minify-numeric-literals@0.4.3:
+    resolution: {integrity: sha512-5D54hvs9YVuCknfWywq0eaYDt7qYxlNwCqW9Ipm/kYeS9gYhJd0Rr/Pm2WhHKJ8DC6aIlDdqSBODSthabLSX3A==}
+    dev: true
+
+  /babel-plugin-minify-replace@0.5.0:
+    resolution: {integrity: sha512-aXZiaqWDNUbyNNNpWs/8NyST+oU7QTpK7J9zFEFSA0eOmtUNMU3fczlTTTlnCxHmq/jYNFEmkkSG3DDBtW3Y4Q==}
+    dev: true
+
+  /babel-plugin-minify-simplify@0.5.1:
+    resolution: {integrity: sha512-OSYDSnoCxP2cYDMk9gxNAed6uJDiDz65zgL6h8d3tm8qXIagWGMLWhqysT6DY3Vs7Fgq7YUDcjOomhVUb+xX6A==}
+    dependencies:
+      babel-helper-evaluate-path: 0.5.0
+      babel-helper-flip-expressions: 0.4.3
+      babel-helper-is-nodes-equiv: 0.0.1
+      babel-helper-to-multiple-sequence-expressions: 0.5.0
+    dev: true
+
+  /babel-plugin-minify-type-constructors@0.4.3:
+    resolution: {integrity: sha512-4ADB0irJ/6BeXWHubjCJmrPbzhxDgjphBMjIjxCc25n4NGJ00NsYqwYt+F/OvE9RXx8KaSW7cJvp+iZX436tnQ==}
+    dependencies:
+      babel-helper-is-void-0: 0.4.3
+    dev: true
+
   /babel-plugin-polyfill-corejs2@0.4.6(@babel/core@7.23.2):
     resolution: {integrity: sha512-jhHiWVZIlnPbEUKSSNb9YoWcQGdlTLq7z1GHL4AjFxaoOUMuuEVJ+Y4pAaQUGOGk93YsVCKPbqbfw3m0SM6H8Q==}
     peerDependencies:
@@ -1354,6 +1450,82 @@ packages:
       '@babel/helper-define-polyfill-provider': 0.4.3(@babel/core@7.23.2)
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /babel-plugin-transform-inline-consecutive-adds@0.4.3:
+    resolution: {integrity: sha512-8D104wbzzI5RlxeVPYeQb9QsUyepiH1rAO5hpPpQ6NPRgQLpIVwkS/Nbx944pm4K8Z+rx7CgjPsFACz/VCBN0Q==}
+    dev: true
+
+  /babel-plugin-transform-member-expression-literals@6.9.4:
+    resolution: {integrity: sha512-Xq9/Rarpj+bjOZSl1nBbZYETsNEDDJSrb6Plb1sS3/36FukWFLLRysgecva5KZECjUJTrJoQqjJgtWToaflk5Q==}
+    dev: true
+
+  /babel-plugin-transform-merge-sibling-variables@6.9.5:
+    resolution: {integrity: sha512-xj/KrWi6/uP+DrD844h66Qh2cZN++iugEIgH8QcIxhmZZPNP6VpOE9b4gP2FFW39xDAY43kCmYMM6U0QNKN8fw==}
+    dev: true
+
+  /babel-plugin-transform-minify-booleans@6.9.4:
+    resolution: {integrity: sha512-9pW9ePng6DZpzGPalcrULuhSCcauGAbn8AeU3bE34HcDkGm8Ldt0ysjGkyb64f0K3T5ilV4mriayOVv5fg0ASA==}
+    dev: true
+
+  /babel-plugin-transform-property-literals@6.9.4:
+    resolution: {integrity: sha512-Pf8JHTjTPxecqVyL6KSwD/hxGpoTZjiEgV7nCx0KFQsJYM0nuuoCajbg09KRmZWeZbJ5NGTySABYv8b/hY1eEA==}
+    dependencies:
+      esutils: 2.0.3
+    dev: true
+
+  /babel-plugin-transform-regexp-constructors@0.4.3:
+    resolution: {integrity: sha512-JjymDyEyRNhAoNFp09y/xGwYVYzT2nWTGrBrWaL6eCg2m+B24qH2jR0AA8V8GzKJTgC8NW6joJmc6nabvWBD/g==}
+    dev: true
+
+  /babel-plugin-transform-remove-console@6.9.4:
+    resolution: {integrity: sha512-88blrUrMX3SPiGkT1GnvVY8E/7A+k6oj3MNvUtTIxJflFzXTw1bHkuJ/y039ouhFMp2prRn5cQGzokViYi1dsg==}
+    dev: true
+
+  /babel-plugin-transform-remove-debugger@6.9.4:
+    resolution: {integrity: sha512-Kd+eTBYlXfwoFzisburVwrngsrz4xh9I0ppoJnU/qlLysxVBRgI4Pj+dk3X8F5tDiehp3hhP8oarRMT9v2Z3lw==}
+    dev: true
+
+  /babel-plugin-transform-remove-undefined@0.5.0:
+    resolution: {integrity: sha512-+M7fJYFaEE/M9CXa0/IRkDbiV3wRELzA1kKQFCJ4ifhrzLKn/9VCCgj9OFmYWwBd8IB48YdgPkHYtbYq+4vtHQ==}
+    dependencies:
+      babel-helper-evaluate-path: 0.5.0
+    dev: true
+
+  /babel-plugin-transform-simplify-comparison-operators@6.9.4:
+    resolution: {integrity: sha512-GLInxhGAQWJ9YIdjwF6dAFlmh4U+kN8pL6Big7nkDzHoZcaDQOtBm28atEhQJq6m9GpAovbiGEShKqXv4BSp0A==}
+    dev: true
+
+  /babel-plugin-transform-undefined-to-void@6.9.4:
+    resolution: {integrity: sha512-D2UbwxawEY1xVc9svYAUZQM2xarwSNXue2qDIx6CeV2EuMGaes/0su78zlIDIAgE7BvnMw4UpmSo9fDy+znghg==}
+    dev: true
+
+  /babel-preset-minify@0.5.2:
+    resolution: {integrity: sha512-v4GL+kk0TfovbRIKZnC3HPbu2cAGmPAby7BsOmuPdMJfHV+4FVdsGXTH/OOGQRKYdjemBuL1+MsE6mobobhe9w==}
+    dependencies:
+      babel-plugin-minify-builtins: 0.5.0
+      babel-plugin-minify-constant-folding: 0.5.0
+      babel-plugin-minify-dead-code-elimination: 0.5.2
+      babel-plugin-minify-flip-comparisons: 0.4.3
+      babel-plugin-minify-guarded-expressions: 0.4.4
+      babel-plugin-minify-infinity: 0.4.3
+      babel-plugin-minify-mangle-names: 0.5.1
+      babel-plugin-minify-numeric-literals: 0.4.3
+      babel-plugin-minify-replace: 0.5.0
+      babel-plugin-minify-simplify: 0.5.1
+      babel-plugin-minify-type-constructors: 0.4.3
+      babel-plugin-transform-inline-consecutive-adds: 0.4.3
+      babel-plugin-transform-member-expression-literals: 6.9.4
+      babel-plugin-transform-merge-sibling-variables: 6.9.5
+      babel-plugin-transform-minify-booleans: 6.9.4
+      babel-plugin-transform-property-literals: 6.9.4
+      babel-plugin-transform-regexp-constructors: 0.4.3
+      babel-plugin-transform-remove-console: 6.9.4
+      babel-plugin-transform-remove-debugger: 6.9.4
+      babel-plugin-transform-remove-undefined: 0.5.0
+      babel-plugin-transform-simplify-comparison-operators: 6.9.4
+      babel-plugin-transform-undefined-to-void: 6.9.4
+      lodash: 4.17.21
     dev: true
 
   /balanced-match@1.0.2:
@@ -1621,6 +1793,10 @@ packages:
 
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+    dev: true
+
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
 
   /loose-envify@1.4.0:
