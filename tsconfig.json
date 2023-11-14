@@ -3,6 +3,8 @@
     "target": "es2016",
     "module": "CommonJS",
     "declaration": true,
+    "outDir": "./lib",
+    "rootDir": "./src",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],                                
     "esModuleInterop": true, 
     "forceConsistentCasingInFileNames": true,            
