@@ -1,6 +1,6 @@
 {
   "name": "zustand-debounce",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -19,9 +19,9 @@
   "author": "AbianS",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "prettier": "^3.1.0",
-    "typescript": "^5.3.2",
-    "zustand": "^4.4.7"
+    "@types/node": "^20.11.27",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.2",
+    "zustand": "^4.5.2"
   }
 }

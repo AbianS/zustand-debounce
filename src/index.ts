@@ -7,10 +7,17 @@ type JsonStorageOptions = {
 
 // Extend the JsonStorageOptions with a debounceTime property
 interface DebouncedJsonStorageOptions extends JsonStorageOptions {
+  /**
+   * @property debounceTime - The time to wait before setting the item
+   */
   debounceTime: number
+  /**
+   * @property immediately - Whether to set the item immediately
+   * @default false
+   */
+  immediately?: boolean
 }
 
-// Function to create a debounced JSON storage
 export function createDebouncedJSONStorage(
   storageApi: StateStorage,
   options: DebouncedJsonStorageOptions,
@@ -18,30 +25,31 @@ export function createDebouncedJSONStorage(
   let timeoutId: ReturnType<typeof setTimeout> | undefined
   let pendingValue: string | null = null
 
-  // Function to set an item with debouncing
+  const { debounceTime, immediately = false, ...restOptions } = options
+
   async function debouncedSetItem(name: string, value: string): Promise<void> {
+    if (immediately) {
+      await storageApi.setItem(name, value)
+      return
+    }
+
     if (timeoutId !== undefined) {
       clearTimeout(timeoutId)
     }
     pendingValue = value
 
-    // Set a timeout to set the item after the debounce time has passed
     timeoutId = setTimeout(async () => {
       if (pendingValue !== null) {
         await storageApi.setItem(name, pendingValue)
         pendingValue = null
       }
-    }, options.debounceTime)
+    }, debounceTime)
   }
 
-  // Create a new storage API with the debounced setItem function
   const debouncedStorageApi: StateStorage = {
     ...storageApi,
     setItem: debouncedSetItem,
   }
 
-  const { debounceTime, ...restOptions } = options
-
-  // Create and return a JSON storage with the debounced storage API and the rest of the options
   return createJSONStorage(() => debouncedStorageApi, restOptions)
 }
