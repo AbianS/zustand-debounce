@@ -4,7 +4,7 @@
     "module": "CommonJS",
     "declaration": true,
     "outDir": "./lib",
-    "rootDir": "./src",
+    "baseUrl": "./",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,5 +12,7 @@
     "skipLibCheck": true,
     "useDefineForClassFields": true,
     "removeComments": false
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "lib"]
 }
