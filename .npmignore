@@ -5,3 +5,4 @@ src
 .prettierrc
 tsconfig.json
 pnpm-lock.yaml
+tsup.config.ts
