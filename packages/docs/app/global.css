@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ui {
+  --primary: var(--ui-color);
+}
+
+.headless {
+  --primary: var(--headless-color);
+}
+
+.mdx {
+  --primary: var(--mdx-color);
+}
+
+:root {
+  --headless-color: 250 80% 54%;
+  --mdx-color: 0 0% 9%;
+  --ui-color: 220deg 91% 54%;
+}
+
+.dark {
+  --headless-color: 250 100% 80%;
+  --mdx-color: 0 0% 100%;
+  --ui-color: 217deg 92% 76%;
+}
+
+.uwu {
+  --background: 240 80% 94% !important;
+  --popover: 240 80% 94% !important;
+  --primary: 230 90% 72% !important;
+  --border: 230 30% 87% !important;
+  --accent: 250 80% 90% !important;
+  --secondary: 230 40% 94% !important;
+  --muted: 230 80% 92% !important;
+  --card: 230 90% 94% !important;
+}
+
+.uwu.dark {
+  --background: 240 40% 20% !important;
+  --popover: 240 20% 20% !important;
+  --primary: 250 70% 94% !important;
+  --border: 230 30% 30% !important;
+  --muted: 230 30% 36.3% !important;
+  --secondary: 250 30% 36.3% !important;
+  --accent: 250 20% 38.3% !important;
+  --muted-foreground: 230 80% 84% !important;
+  --card: 230 40% 26.3% !important;
+}
+
+@keyframes circuit_1 {
+  0% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(100px);
+  }
+}
+
+@keyframes circuit_1_x_energy {
+  0%,
+  46% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  47%,
+  70% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(212px);
+  }
+}

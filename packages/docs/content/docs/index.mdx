@@ -1,0 +1,92 @@
+---
+title: Quick Start
+description: Inicio Rápido
+---
+
+# Inicio Rápido 🚀
+
+Bienvenido a **Zustand Debounce**, una extensión para [Zustand](https://github.com/pmndrs/zustand) que mejora la persistencia de estado, agregando funcionalidades avanzadas como _debounce_, _throttle_, _TTL_, y más.
+
+<Callout type="info">
+  **¿Por qué usar `zustand-debounce`?** Ayuda a optimizar las operaciones de
+  escritura persistente, reduciendo la cantidad de veces que el estado es
+  guardado en el almacenamiento.
+</Callout>
+
+## Instalación
+
+Instala la librería con tu gestor de paquetes favorito:
+
+```bash
+# Usando npm
+npm install zustand-debounce
+
+# Usando yarn
+yarn add zustand-debounce
+
+# Usando pnpm
+pnpm add zustand-debounce
+```
+
+## Configuración Básica
+
+Una vez que hayas instalado la librería, puedes crear un store utilizando `zustand` y agregar persistencia con las opciones de debounce:
+
+```tsx
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+import { createDebouncedJSONStorage } from "zustand-debounce"
+
+interface CounterState {
+  count: number
+  increment: () => void
+}
+
+export const useCounterStore = create<CounterState>()(
+  persist(
+    (set) => ({
+      count: 0,
+      increment: () => set((state) => ({ count: state.count + 1 })),
+    }),
+    {
+      name: "counter-storage",
+      storage: createDebouncedJSONStorage(localStorage, {
+        debounceTime: 2000, // Retraso de 2000ms antes de guardar
+      }),
+    },
+  ),
+)
+```
+
+Este ejemplo crea un store simple para un contador, persistiendo su estado en localStorage con un debounce de 2000ms. Esto significa que el estado solo se guardará después de que el usuario deje de interactuar durante ese tiempo.
+
+## Uso en un Componente
+
+Una vez configurado el store, puedes utilizarlo dentro de un componente React de la siguiente manera:
+
+```tsx
+import React from "react"
+import { useCounterStore } from "./stores/counterStore"
+
+function Counter() {
+  const { count, increment } = useCounterStore()
+
+  return (
+    <div>
+      <h1>Contador: {count}</h1>
+      <button onClick={increment}>Incrementar</button>
+    </div>
+  )
+}
+
+export default Counter
+```
+
+En este componente, el valor del contador se muestra y puede incrementarse usando el botón. Cada cambio en el estado se persistirá en el almacenamiento tras aplicar el debounce.
+
+<Callout type="info">
+  En este ejemplo, el estado se guarda en `localStorage` tras 2000ms de
+  inactividad del usuario. Esto evita guardar el estado con demasiada
+</Callout>
+
+Hasta aquí hemos cubierto los aspectos básicos de zustand-debounce. En las siguientes secciones, exploraremos más funcionalidades avanzadas como `throttle`, `onSave`, `onWrite`, y más configuraciones personalizables.
