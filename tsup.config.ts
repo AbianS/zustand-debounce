@@ -8,7 +8,6 @@ export const tsup: Options = {
   bundle: true,
   minifyWhitespace: true,
   minifySyntax: true,
-  entryPoints: ["src/index.ts"],
   skipNodeModulesBundle: true,
   treeshake: true,
   target: "es2020",
