@@ -1,16 +1,16 @@
 # Zustand Debounce
 
-zustand-debounce is a library that extends the capabilities of [Zustand](https://github.com/pmndrs/zustand) to provide a JSON state storage system with delayed (debounced) writing to storage. With this tool, you can reduce the number of write operations to storage by delaying and grouping them.
+Zustand Debounce is a powerful extension for [Zustand](https://github.com/pmndrs/zustand) that enhances your state management by providing delayed (debounced) and throttled writing to storage, custom serialization, TTL (Time to Live) for your data, and more. With this tool, you can optimize performance by reducing unnecessary write operations and gain fine-grained control over your persisted state.
 
-✅ 🐙 Lightweight!! 367 B gzipped.
-
-✅ 🚀 Easy integration into your projects.
-
-✅ 🕒 Customize the debounce time according to your needs.
-
-✅ 🔄 Avoid frequent writes to storage.
-
-✅ Full TypeScript support.
+- 🐙 Lightweight: Minimal overhead with powerful features.
+- 🚀 Easy Integration: Seamless integration with your existing Zustand stores.
+- ⏳ Debounce and Throttle: Customize debounce and throttle times to optimize writes.
+- 🔄 Flush Mechanism: Manually flush pending writes when needed.
+- 🔁 Error Handling and Retries: Robust error handling with configurable retries.
+- 🎣 Events and Callbacks: React to storage events with custom callbacks.
+- 📝 Custom Serialization: Define your own serialization and deserialization methods.
+- ⏱️ Time to Live (TTL): Automatically expire data after a specified duration.
+- 💪 Full TypeScript Support: Strong typing for safer and more predictable code.
 
 ## Installation
 

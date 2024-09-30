@@ -11,6 +11,5 @@ export const tsup: Options = {
   skipNodeModulesBundle: true,
   treeshake: true,
   target: "es2020",
-  outDir: "lib",
   entry: ["src/index.ts"],
 }

@@ -3,7 +3,7 @@
     "target": "ES2018",
     "module": "CommonJS",
     "declaration": true,
-    "outDir": "./lib",
+    "outDir": "./dist",
     "baseUrl": "./",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "esModuleInterop": true,
@@ -14,5 +14,5 @@
     "removeComments": false
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "lib"]
+  "exclude": ["node_modules", "dist"]
 }
