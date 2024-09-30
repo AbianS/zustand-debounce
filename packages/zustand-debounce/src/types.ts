@@ -10,9 +10,10 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
   maxRetries?: number
   retryDelay?: number
   onWrite?: (key: string, value: string) => void
+  onSave?: (key: string, value: string) => void
   serialize?: (state: unknown) => string
   deserialize?: (str: string) => unknown
-  ttl?: number // Tiempo de vida en milisegundos
+  ttl?: number
 }
 
 export interface IStorage {

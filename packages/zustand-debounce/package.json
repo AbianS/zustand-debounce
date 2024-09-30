@@ -1,14 +1,15 @@
 {
   "name": "zustand-debounce",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "",
-  "main": "lib/index.mjs",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/AbianS/zustand-debounce",
   "homepage": "https://github.com/AbianS",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup --config tsup.config.ts && tsc --emitDeclarationOnly --declaration"
+    "build": "tsup --config tsup.config.ts && tsc --emitDeclarationOnly --declaration",
+    "dev": "tsc --watch"
   },
   "keywords": [
     "zustand",

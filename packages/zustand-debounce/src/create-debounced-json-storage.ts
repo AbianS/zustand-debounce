@@ -6,11 +6,14 @@ import { TTLDecorator } from "./core/decorators/ttl.decorator"
 import { RetryDecorator } from "./core/decorators/retry.decorator"
 import { ThrottleDecorator } from "./core/decorators/throttle.decorator"
 import { EventDecorator } from "./core/decorators/event.decorator"
+import { EventEmitter } from "./core/event-emitter"
 
 export function createDebouncedJSONStorage(
   storageApi: StateStorage,
   options: EnhancedJsonStorageOptions = {},
 ) {
+  const eventEmitter = new EventEmitter()
+
   let storage: IStorage = new BaseStorage(storageApi)
 
   const {
@@ -20,13 +23,12 @@ export function createDebouncedJSONStorage(
     maxRetries,
     retryDelay,
     onWrite,
+    onSave,
     serialize,
     deserialize,
     ttl,
     ...restOptions
   } = options
-
-  // Aplicamos los decoradores según las opciones proporcionadas
 
   if (serialize && deserialize) {
     storage = new SerializationDecorator(storage, { serialize, deserialize })
@@ -41,20 +43,22 @@ export function createDebouncedJSONStorage(
   }
 
   if (debounceTime || throttleTime || immediately !== undefined) {
-    storage = new ThrottleDecorator(storage, {
-      debounceTime,
-      throttleTime,
-      immediately,
-    })
+    storage = new ThrottleDecorator(
+      storage,
+      { debounceTime, throttleTime, immediately },
+      eventEmitter,
+    )
   }
 
+  const eventStorage = new EventDecorator(storage, eventEmitter)
   if (onWrite) {
-    const eventStorage = new EventDecorator(storage)
-    eventStorage.on("set", onWrite)
-    storage = eventStorage
+    eventStorage.on("write", onWrite)
   }
+  if (onSave) {
+    eventStorage.on("save", onSave)
+  }
+  storage = eventStorage
 
-  // Convertimos nuestro IStorage a StateStorage para usar con Zustand
   const zustandStorage: StateStorage = {
     getItem: async (name: string) => {
       const value = await storage.getItem(name)
@@ -68,6 +72,5 @@ export function createDebouncedJSONStorage(
     },
   }
 
-  // Devolvemos el almacenamiento JSON usando createJSONStorage
   return createJSONStorage(() => zustandStorage, restOptions)
 }

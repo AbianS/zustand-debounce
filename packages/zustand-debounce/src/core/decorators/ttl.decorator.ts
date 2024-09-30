@@ -31,7 +31,6 @@ export class TTLDecorator extends StorageDecorator {
       }
       return value
     } catch (e) {
-      // Manejo de errores de deserialización si es necesario
       return null
     }
   }
