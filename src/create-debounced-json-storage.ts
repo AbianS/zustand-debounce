@@ -72,7 +72,6 @@ export function createDebouncedJSONStorage(
     },
   };
 
-  // Ensure createJSONStorage returns a defined value
   const jsonStorage = createJSONStorage(() => zustandStorage, restOptions);
 
   if (jsonStorage === undefined) {

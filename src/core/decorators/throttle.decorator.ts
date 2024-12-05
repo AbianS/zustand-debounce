@@ -46,21 +46,21 @@ export class ThrottleDecorator extends StorageDecorator {
       clearTimeout(this.timeoutId);
     }
 
-    this.timeoutId = setTimeout(async () => {
+    this.timeoutId = setTimeout(() => {
       if (this.pendingValue !== null) {
-        await this.wrappedStorage.setItem(
-          this.pendingValue.key,
-          this.pendingValue.value,
-        );
-        this.lastExecutionTime = Date.now();
+        const { key: pendingKey, value: pendingValue } = this.pendingValue;
 
-        this.eventEmitter.emit(
-          'save',
-          this.pendingValue.key,
-          this.pendingValue.value,
-        );
-
-        this.pendingValue = null;
+        (
+          this.wrappedStorage as {
+            setItem: (key: string, value: any) => Promise<void>;
+          }
+        )
+          .setItem(pendingKey, pendingValue)
+          .then(() => {
+            this.lastExecutionTime = Date.now();
+            this.eventEmitter.emit('save', pendingKey, pendingValue);
+            this.pendingValue = null;
+          });
       }
     }, debounceTime);
   }
@@ -71,15 +71,9 @@ export class ThrottleDecorator extends StorageDecorator {
       this.timeoutId = undefined;
     }
     if (this.pendingValue !== null) {
-      await this.wrappedStorage.setItem(
-        this.pendingValue.key,
-        this.pendingValue.value,
-      );
-      this.eventEmitter.emit(
-        'save',
-        this.pendingValue.key,
-        this.pendingValue.value,
-      );
+      const { key: pendingKey, value: pendingValue } = this.pendingValue;
+      await this.wrappedStorage.setItem(pendingKey, pendingValue);
+      this.eventEmitter.emit('save', pendingKey, pendingValue);
       this.pendingValue = null;
     }
     await this.wrappedStorage.flush?.();
