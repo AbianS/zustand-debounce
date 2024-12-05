@@ -5,24 +5,14 @@
     "declaration": true,
     "outDir": "./lib",
     "baseUrl": "./",
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
-    "removeComments": false,
+    "removeComments": false
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "lib",
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "lib"]
 }
