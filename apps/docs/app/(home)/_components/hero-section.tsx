@@ -1,9 +1,9 @@
+import { BasicForm } from '@/app/examples/(examples)/basic-form/_components/form';
 import { baseOptions } from '@/app/layout.config';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ChevronDown, Github, Library } from 'lucide-react';
 import Link from 'next/link';
-import { LandingDemo } from './demo';
 
 export function HeroSection() {
   return (
@@ -46,7 +46,7 @@ export function HeroSection() {
         </nav>
       </aside>
       <aside className="relative my-4 xl:my-auto xl:flex-1 xl:pt-4">
-        <LandingDemo />
+        <BasicForm />
       </aside>
       <div
         className="absolute -bottom-12 left-0 right-0 hidden h-12 items-center justify-center xl:flex"
