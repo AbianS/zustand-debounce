@@ -2,7 +2,7 @@ import { BasicForm } from '@/app/examples/(examples)/basic-form/_components/form
 import { baseOptions } from '@/app/layout.config';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ChevronDown, Github, Library } from 'lucide-react';
+import { Github, Library } from 'lucide-react';
 import Link from 'next/link';
 
 export function HeroSection() {
@@ -13,9 +13,9 @@ export function HeroSection() {
           <p>Zustand Debounce</p>
         </h1>
         <p className="my-8 text-center text-2xl md:text-4xl xl:text-left">
-          Type-safe search params
+          Smarter state persistence
           <br />
-          state manager for React
+          for React with Zustand
         </p>
         <nav className="flex flex-wrap gap-4">
           <Link
@@ -48,12 +48,12 @@ export function HeroSection() {
       <aside className="relative my-4 xl:my-auto xl:flex-1 xl:pt-4">
         <BasicForm />
       </aside>
-      <div
+      {/* <div
         className="absolute -bottom-12 left-0 right-0 hidden h-12 items-center justify-center xl:flex"
         aria-hidden
       >
         <ChevronDown />
-      </div>
+      </div> */}
     </section>
   );
 }

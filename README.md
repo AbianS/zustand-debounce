@@ -6,7 +6,7 @@ Zustand Debounce enhances the capabilities of Zustand by introducing a debounced
 
 ## 🚀 Features
 
-✅ **Ultra Lightweight:** Only 367 B gzipped 🐙
+✅ **Ultra Lightweight:** Only 1.19 kB gzipped 🐙
 
 ✅ **Easy Integration:** Seamlessly integrates into your existing projects 🚀
 
