@@ -1,29 +1,21 @@
 {
-  "name": "zustand-debounce",
-  "version": "1.1.2",
-  "description": "",
-  "main": "lib/index.mjs",
-  "types": "lib/index.d.ts",
-  "repository": "https://github.com/AbianS/zustand-debounce",
-  "homepage": "https://github.com/AbianS",
+  "name": "zustand-debounce-monorepo",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "build:tsup": "tsup --config tsup.config.ts && tsc --emitDeclarationOnly --declaration"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "lint": "biome lint .",
+    "lint:fix": "biome check . --write"
   },
-  "keywords": [
-    "zustand",
-    "debounce",
-    "zustand-debounce",
-    "zustand debounce"
-  ],
-  "author": "AbianS",
-  "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.11.27",
-    "prettier": "^3.2.5",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.2",
-    "zustand": "^4.5.2"
-  }
+    "turbo": "^2.3.3",
+    "typescript": "5.7.2",
+    "@biomejs/biome": "1.9.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@11.0.0",
+  "workspaces": ["apps/*", "packages/*"]
 }
