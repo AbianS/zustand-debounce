@@ -1,9 +1,9 @@
 name: Publish and Create Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
