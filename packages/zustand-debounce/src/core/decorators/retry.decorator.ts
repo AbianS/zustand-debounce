@@ -4,6 +4,7 @@ import { StorageDecorator } from './storage.decorator';
 interface RetryOptions {
   maxRetries?: number;
   retryDelay?: number;
+  backoffMultiplier?: number;
 }
 
 export class RetryDecorator extends StorageDecorator {
@@ -15,7 +16,11 @@ export class RetryDecorator extends StorageDecorator {
   }
 
   async setItem(key: string, value: string): Promise<void> {
-    const { maxRetries = 3, retryDelay = 1000 } = this.options;
+    const {
+      maxRetries = 3,
+      retryDelay = 1000,
+      backoffMultiplier = 1,
+    } = this.options;
     let attempts = 0;
 
     while (attempts < maxRetries) {
@@ -27,7 +32,8 @@ export class RetryDecorator extends StorageDecorator {
         if (attempts >= maxRetries) {
           throw error;
         }
-        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+        const delay = retryDelay * backoffMultiplier ** (attempts - 1);
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
   }
