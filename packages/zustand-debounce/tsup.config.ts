@@ -4,14 +4,18 @@ export const tsup: Options = {
   splitting: true,
   clean: true,
   dts: false,
-  format: 'esm',
+  format: ['esm', 'cjs'],
   bundle: true,
-  minifyWhitespace: true,
-  minifySyntax: true,
+  minify: true,
   entryPoints: ['src/index.ts'],
   skipNodeModulesBundle: true,
   treeshake: true,
   target: 'es2020',
   outDir: 'dist',
-  entry: ['src/index.ts'],
+  external: ['zustand'],
+  outExtension({ format }) {
+    return {
+      js: format === 'cjs' ? '.cjs' : '.mjs',
+    };
+  },
 };

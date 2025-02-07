@@ -2,8 +2,15 @@
   "name": "zustand-debounce",
   "version": "2.0.2",
   "description": "",
-  "main": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "repository": "https://github.com/AbianS/zustand-debounce",
   "homepage": "https://github.com/AbianS",
   "files": ["dist"],
