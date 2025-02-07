@@ -1,5 +1,6 @@
 import { IStorage } from '../../types';
 import { StorageDecorator } from './storage.decorator';
+import { EventEmitter } from '../event-emitter';
 
 interface RetryOptions {
   maxRetries?: number;
@@ -11,6 +12,7 @@ export class RetryDecorator extends StorageDecorator {
   constructor(
     wrappedStorage: IStorage,
     private options: RetryOptions = {},
+    private eventEmitter?: EventEmitter,
   ) {
     super(wrappedStorage);
   }
@@ -30,9 +32,15 @@ export class RetryDecorator extends StorageDecorator {
       } catch (error) {
         attempts++;
         if (attempts >= maxRetries) {
+          if (this.eventEmitter) {
+            this.eventEmitter.emit('error', key, error);
+          }
           throw error;
         }
         const delay = retryDelay * backoffMultiplier ** (attempts - 1);
+        if (this.eventEmitter) {
+          this.eventEmitter.emit('retry', key, attempts, error, delay);
+        }
         await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }

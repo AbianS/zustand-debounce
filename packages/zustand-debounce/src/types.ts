@@ -11,6 +11,9 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
   retryDelay?: number;
   onWrite?: (key: string, value: string) => void;
   onSave?: (key: string, value: string) => void;
+  onFlush?: (key: string, value: string) => void;
+  onRetry?: (key: string, attempt: number, error: any, delay: number) => void;
+  onError?: (key: string, error: any) => void;
   serialize?: (state: unknown) => string;
   deserialize?: (str: string) => unknown;
   ttl?: number;
