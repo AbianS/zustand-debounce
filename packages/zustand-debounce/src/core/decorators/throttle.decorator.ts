@@ -74,6 +74,7 @@ export class ThrottleDecorator extends StorageDecorator {
       const { key: pendingKey, value: pendingValue } = this.pendingValue;
       await this.wrappedStorage.setItem(pendingKey, pendingValue);
       this.eventEmitter.emit('save', pendingKey, pendingValue);
+      this.eventEmitter.emit('flush', pendingKey, pendingValue);
       this.pendingValue = null;
     }
     await this.wrappedStorage.flush?.();

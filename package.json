@@ -9,13 +9,13 @@
     "lint:fix": "biome check . --write"
   },
   "devDependencies": {
-    "turbo": "^2.3.3",
-    "typescript": "5.7.2",
+    "turbo": "^2.4.0",
+    "typescript": "5.7.3",
     "@biomejs/biome": "1.9.4"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "npm@11.0.0",
+  "packageManager": "npm@11.1.0",
   "workspaces": ["apps/*", "packages/*"]
 }

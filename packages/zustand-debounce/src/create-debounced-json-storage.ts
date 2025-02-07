@@ -7,14 +7,18 @@ import { ThrottleDecorator } from './core/decorators/throttle.decorator';
 import { TTLDecorator } from './core/decorators/ttl.decorator';
 import { EventEmitter } from './core/event-emitter';
 import { EnhancedJsonStorageOptions, IStorage } from './types';
+import {
+  AdapterIdentifier,
+  getStorageAdapter,
+} from './core/adapters/get-storage-adapter';
 
 export function createDebouncedJSONStorage(
-  storageApi: StateStorage,
+  storageApi: AdapterIdentifier,
   options: EnhancedJsonStorageOptions = {},
 ) {
   const eventEmitter = new EventEmitter();
 
-  let storage: IStorage = new BaseStorage(storageApi);
+  let storage: IStorage = new BaseStorage(getStorageAdapter(storageApi));
 
   const {
     debounceTime,

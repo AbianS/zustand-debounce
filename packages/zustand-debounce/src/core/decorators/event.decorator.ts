@@ -2,7 +2,15 @@ import { IStorage } from '../../types';
 import { EventEmitter } from '../event-emitter';
 import { StorageDecorator } from './storage.decorator';
 
-type StorageEvent = 'set' | 'get' | 'remove' | 'write' | 'save';
+type StorageEvent =
+  | 'set'
+  | 'get'
+  | 'remove'
+  | 'write'
+  | 'save'
+  | 'flush'
+  | 'retry'
+  | 'error';
 
 type EventCallbackMap = {
   set: (key: string, value: string) => void;
@@ -10,6 +18,9 @@ type EventCallbackMap = {
   remove: (key: string) => void;
   write: (key: string, value: string) => void;
   save: (key: string, value: string) => void;
+  flush: (key: string, value: string) => void;
+  retry: (key: string, attempt: number, error: any, delay: number) => void;
+  error: (key: string, error: any) => void;
 };
 
 export class EventDecorator extends StorageDecorator {
