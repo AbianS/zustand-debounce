@@ -1,0 +1,41 @@
+.features {
+  padding: 4rem 0;
+  width: 100%;
+  background: #f8f9fa;
+}
+
+[data-theme="dark"] .features {
+  background: #1a1a1a;
+}
+
+.featureCard {
+  margin-bottom: 2rem !important;
+  transition: transform 0.3s ease;
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--ifm-card-background-color);
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+}
+
+/* Forzar espacio entre todas las columnas */
+.features .col {
+  margin-bottom: 2rem !important;
+  padding-bottom: 1rem;
+}
+
+.badgeContainer {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.lead {
+  font-size: 1.125rem;
+  color: var(--ifm-color-emphasis-700);
+  max-width: 600px;
+  margin: 0 auto;
+}
