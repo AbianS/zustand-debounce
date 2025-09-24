@@ -1,6 +1,6 @@
 {
   "name": "zustand-debounce",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -12,7 +12,7 @@
     }
   },
   "repository": "https://github.com/AbianS/zustand-debounce",
-  "homepage": "https://github.com/AbianS",
+  "homepage": "https://abians.github.io/zustand-debounce/",
   "files": ["dist"],
   "scripts": {
     "dev": "tsup --config tsup.config.ts --dts --watch",
