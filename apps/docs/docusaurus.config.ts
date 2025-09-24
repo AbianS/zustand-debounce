@@ -14,10 +14,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://zustand-debounce.vercel.app',
+  url: 'https://abians.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/zustand-debounce/',
 
   // GitHub pages deployment config.
   organizationName: 'AbianS', // Usually your GitHub org/user name.
