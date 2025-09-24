@@ -2,6 +2,7 @@ import type { Options } from 'tsup';
 
 export const tsup: Options = {
   splitting: true,
+  cjsInterop: true,
   clean: true,
   dts: false,
   format: ['esm', 'cjs'],
