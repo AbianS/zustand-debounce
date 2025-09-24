@@ -43,7 +43,7 @@ jobs:
       - name: Publish to npm
         run: |
           cd packages/zustand-debounce
-          pnpm publish --access public
+          pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
