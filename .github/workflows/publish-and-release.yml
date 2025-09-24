@@ -13,17 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          node-version: lts/*
-          cache: pnpm
-          registry-url: https://registry.npmjs.org/
+          fetch-depth: 0 # Not needed if lastUpdated is not enabled
 
       - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
-          version: latest
+          version: 10.13.1
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: pnpm
 
       - name: Install Dependencies
         run: pnpm install
