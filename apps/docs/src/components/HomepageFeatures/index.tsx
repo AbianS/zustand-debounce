@@ -1,11 +1,10 @@
 import type { ReactNode } from 'react';
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
-import Translate from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 type FeatureItem = {
-  title: ReactNode;
+  title: string;
   icon: string;
   description: ReactNode;
   badge?: string;
@@ -13,79 +12,66 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: (
-      <Translate id="features.ultraLightweight.title">
-        Ultra Lightweight
-      </Translate>
-    ),
+    title: 'Ultra Ligero',
     icon: '🪶',
     badge: '1.74 kB',
     description: (
-      <Translate id="features.ultraLightweight.description">
-        Only 1.74 kB gzipped with zero external dependencies. Optimized for the
-        best possible performance without compromising functionality.
-      </Translate>
-    ),
-  },
-  {
-    title: (
-      <Translate id="features.smartDebounce.title">Smart Debounce</Translate>
-    ),
-    icon: '⏱️',
-    description: (
-      <Translate id="features.smartDebounce.description">
-        Groups multiple changes into a single write operation, significantly
-        reducing I/O operations and improving performance.
-      </Translate>
-    ),
-  },
-  {
-    title: (
-      <Translate id="features.multipleAdapters.title">
-        Multiple Adapters
-      </Translate>
-    ),
-    icon: '🗄️',
-    description: (
       <>
-        <Translate id="features.multipleAdapters.description">
-          Support for localStorage, sessionStorage, memoryStorage and custom
-          adapters.
-        </Translate>
+        Solo <strong>1.74 kB</strong> comprimido y sin dependencias externas.
+        Optimizado para el mejor rendimiento posible sin comprometer
+        funcionalidad.
       </>
     ),
   },
   {
-    title: <Translate id="features.retrySystem.title">Retry System</Translate>,
+    title: 'Debounce Inteligente',
+    icon: '⏱️',
+    description: (
+      <>
+        Agrupa múltiples cambios en una sola operación de escritura, reduciendo
+        significativamente las operaciones de I/O y mejorando el rendimiento.
+      </>
+    ),
+  },
+  {
+    title: 'Múltiples Adaptadores',
+    icon: '🗄️',
+    description: (
+      <>
+        Soporte para <code>localStorage</code>, <code>sessionStorage</code>,
+        <code>memoryStorage</code> y adaptadores personalizados.
+      </>
+    ),
+  },
+  {
+    title: 'Sistema de Reintentos',
     icon: '🔁',
     description: (
-      <Translate id="features.retrySystem.description">
-        Automatic retries with configurable exponential backoff for failed
-        operations, ensuring data persistence.
-      </Translate>
+      <>
+        Reintentos automáticos con backoff exponencial configurable para
+        operaciones fallidas, garantizando la persistencia de datos.
+      </>
     ),
   },
   {
-    title: <Translate id="features.ttl.title">TTL (Time-to-Live)</Translate>,
+    title: 'TTL (Time-to-Live)',
     icon: '⌛',
     description: (
-      <Translate id="features.ttl.description">
-        Specify a lifetime for stored data. Expired data is automatically
-        removed from storage.
-      </Translate>
+      <>
+        Especifica un tiempo de vida para los datos almacenados. Los datos
+        expirados se eliminan automáticamente del storage.
+      </>
     ),
   },
   {
-    title: (
-      <Translate id="features.typescript.title">Full TypeScript</Translate>
-    ),
+    title: 'TypeScript Completo',
     icon: '📘',
     badge: 'TypeScript',
     description: (
-      <Translate id="features.typescript.description">
-        Full TypeScript support with strict typing and autocompletion. Built
-        with TypeScript from the ground up.
-      </Translate>
+      <>
+        Soporte completo para TypeScript con tipos estrictos y autocompletado.
+        Desarrollado con TypeScript desde el principio.
+      </>
     ),
   },
 ];
@@ -125,16 +111,10 @@ export default function HomepageFeatures(): ReactNode {
     <section className={styles.features}>
       <div className="container">
         <div className="text--center margin-bottom--xl">
-          <Heading as="h2">
-            <Translate id="features.heading">
-              Why choose Zustand Debounce?
-            </Translate>
-          </Heading>
+          <Heading as="h2">¿Por qué elegir Zustand Debounce?</Heading>
           <p className="lead">
-            <Translate id="features.subheading">
-              A powerful and lightweight extension that significantly improves
-              your Zustand application performance through smart debouncing.
-            </Translate>
+            Una extensión poderosa y ligera que mejora significativamente el
+            rendimiento de tu aplicación Zustand mediante debounce inteligente.
           </p>
         </div>
         <div className="row">

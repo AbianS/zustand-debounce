@@ -191,23 +191,6 @@ async function syncCartWithServer(cartData: any) {
 }
 ```
 
-## 🎯 Demos Interactivas
-
-import TTLDemo from '@site/src/components/TTLDemo';
-import EventDemo from '@site/src/components/EventDemo';
-
-### Time-to-Live (TTL)
-
-Los datos expiran automáticamente después de un tiempo determinado:
-
-<TTLDemo />
-
-### Eventos de Almacenamiento
-
-Escucha eventos cuando se guarden los datos:
-
-<EventDemo />
-
 ## 👤 Perfil de Usuario
 
 Guarda cambios del perfil con reintentos para datos importantes.

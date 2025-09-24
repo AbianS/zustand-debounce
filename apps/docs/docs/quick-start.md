@@ -6,14 +6,6 @@ sidebar_position: 3
 
 Aprende a usar **Zustand Debounce** en menos de 5 minutos con ejemplos prácticos.
 
-import SimpleCounter from '@site/src/components/SimpleCounter';
-
-## Demo Interactiva
-
-Prueba el debounce en acción con este ejemplo:
-
-<SimpleCounter />
-
 ## Configuración Básica
 
 La forma más simple de usar Zustand Debounce es reemplazar `createJSONStorage` con `createDebouncedJSONStorage`:

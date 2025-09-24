@@ -5,7 +5,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
-import Translate, { translate } from '@docusaurus/Translate';
 
 import styles from './index.module.css';
 
@@ -20,35 +19,27 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link className="button button--primary button--lg" to="/docs/intro">
-            <Translate id="homepage.getStarted">Get Started 🚀</Translate>
+            Comenzar 🚀
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/installation"
           >
-            <Translate id="homepage.installation">Installation 📦</Translate>
+            Instalación 📦
           </Link>
         </div>
         <div className={styles.heroStats}>
           <div className={styles.stat}>
             <span className={styles.statNumber}>1.74 kB</span>
-            <span className={styles.statLabel}>
-              <Translate id="homepage.stat.minified">Minified size</Translate>
-            </span>
+            <span className={styles.statLabel}>Tamaño minificado</span>
           </div>
           <div className={styles.stat}>
             <span className={styles.statNumber}>0</span>
-            <span className={styles.statLabel}>
-              <Translate id="homepage.stat.dependencies">
-                Dependencies
-              </Translate>
-            </span>
+            <span className={styles.statLabel}>Dependencias</span>
           </div>
           <div className={styles.stat}>
             <span className={styles.statNumber}>TypeScript</span>
-            <span className={styles.statLabel}>
-              <Translate id="homepage.stat.typescript">Full support</Translate>
-            </span>
+            <span className={styles.statLabel}>Soporte completo</span>
           </div>
         </div>
       </div>
@@ -60,15 +51,8 @@ export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={translate({
-        id: 'homepage.title',
-        message: 'Zustand Debounce - Debounce for Zustand',
-      })}
-      description={translate({
-        id: 'homepage.description',
-        message:
-          'Optimized JSON storage with debounce for Zustand. Reduces write operations and improves your application performance.',
-      })}
+      title={`${siteConfig.title} - Debounce para Zustand`}
+      description="Almacenamiento JSON optimizado con debounce para Zustand. Reduce las operaciones de escritura y mejora el rendimiento de tu aplicación."
     >
       <HomepageHeader />
       <main>

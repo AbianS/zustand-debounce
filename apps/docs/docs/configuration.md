@@ -66,12 +66,6 @@ const storage = createDebouncedJSONStorage('localStorage', {
 });
 ```
 
-import RetryDemo from '@site/src/components/RetryDemo';
-
-#### Demo: Sistema de Reintentos
-
-<RetryDemo />
-
 ## Callbacks de Eventos
 
 ### `onWrite`

@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Zustand Debounce',
-  tagline: 'Optimized JSON storage with debounce for Zustand',
+  tagline: 'Almacenamiento JSON optimizado con debounce para Zustand',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
