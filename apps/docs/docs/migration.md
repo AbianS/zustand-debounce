@@ -2,13 +2,13 @@
 sidebar_position: 8
 ---
 
-# Guía de Migración
+# Migration Guide
 
-Aprende cómo migrar desde `createJSONStorage` estándar a **Zustand Debounce**.
+Learn how to migrate from standard `createJSONStorage` to **Zustand Debounce**.
 
-## Migración Básica
+## Basic Migration
 
-### Antes (Zustand estándar)
+### Before (Standard Zustand)
 ```typescript
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -24,7 +24,7 @@ const useStore = create()(
 );
 ```
 
-### Después (Zustand Debounce)
+### After (Zustand Debounce)
 ```typescript
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -43,26 +43,26 @@ const useStore = create()(
 );
 ```
 
-## Cambios Importantes
+## Important Changes
 
-1. **Importación**: Importa desde `zustand-debounce`
-2. **Sintaxis**: Usa string identifier en lugar de función
-3. **Opciones**: Segundo parámetro para configuración
+1. **Import**: Import from `zustand-debounce`
+2. **Syntax**: Use string identifier instead of function
+3. **Options**: Second parameter for configuration
 
-## Migración sin Cambios de Comportamiento
+## Migration without Behavior Changes
 
-Si quieres migrar sin cambiar el comportamiento actual:
+If you want to migrate without changing current behavior:
 
 ```typescript
-// Comportamiento idéntico al original
+// Identical behavior to original
 storage: createDebouncedJSONStorage('localStorage', {
-  debounceTime: 0  // Sin debounce = comportamiento original
+  debounceTime: 0  // No debounce = original behavior
 })
 ```
 
-## Verificar la Migración
+## Verify Migration
 
-Después de migrar, verifica que:
-- Los datos existentes se cargan correctamente
-- El comportamiento es el esperado
-- No hay errores en la consola
+After migrating, verify that:
+- Existing data loads correctly
+- Behavior is as expected  
+- No errors in console

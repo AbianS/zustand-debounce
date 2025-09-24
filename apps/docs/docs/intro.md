@@ -2,36 +2,36 @@
 sidebar_position: 1
 ---
 
-# Introducción a Zustand Debounce
+# Introduction to Zustand Debounce
 
-¡Bienvenido a **Zustand Debounce**! 🎉
+Welcome to **Zustand Debounce**! 🎉
 
-**Zustand Debounce** es una extensión **ligera** y **poderosa** para [Zustand](https://github.com/pmndrs/zustand) que proporciona un sistema de almacenamiento JSON con debounce inteligente. 
+**Zustand Debounce** is a **lightweight** and **powerful** extension for [Zustand](https://github.com/pmndrs/zustand) that provides a JSON storage system with intelligent debouncing. 
 
-## ¿Qué es el Debounce?
+## What is Debounce?
 
-El debounce es una técnica de programación que **retrasa la ejecución** de una función hasta que haya pasado un tiempo determinado desde la última vez que fue invocada. En el contexto de Zustand Debounce:
+Debounce is a programming technique that **delays the execution** of a function until a certain amount of time has passed since the last time it was invoked. In the context of Zustand Debounce:
 
-- ✅ **Agrupa múltiples cambios** en una sola operación de escritura
-- ✅ **Reduce las operaciones de I/O** significativamente
-- ✅ **Mejora el rendimiento** de tu aplicación
-- ✅ **Evita escrituras innecesarias** al storage
+- ✅ **Groups multiple changes** into a single write operation
+- ✅ **Reduces I/O operations** significantly
+- ✅ **Improves your application's performance**
+- ✅ **Prevents unnecessary writes** to storage
 
-## ¿Por qué usar Zustand Debounce?
+## Why use Zustand Debounce?
 
-### 🚀 **Rendimiento Optimizado**
-Reduce drásticamente las operaciones de escritura al storage, especialmente útil cuando tienes cambios frecuentes en tu estado.
+### 🚀 **Optimized Performance**
+Drastically reduces storage write operations, especially useful when you have frequent state changes.
 
-### 🪶 **Ultra Ligero**
-Solo **1.74 kB** comprimido y **cero dependencias** externas.
+### 🪶 **Ultra Lightweight**
+Only **1.74 kB** compressed and **zero external dependencies**.
 
-### 🛠️ **Fácil de usar**
-Reemplaza `createJSONStorage` con `createDebouncedJSONStorage` y ¡listo!
+### 🛠️ **Easy to use**
+Replace `createJSONStorage` with `createDebouncedJSONStorage` and you're done!
 
-### 🔧 **Altamente Configurable**
-Múltiples opciones para personalizar el comportamiento según tus necesidades.
+### 🔧 **Highly Configurable**
+Multiple options to customize behavior according to your needs.
 
-## Ejemplo Rápido
+## Quick Example
 
 ```typescript
 import { create } from 'zustand';
@@ -52,24 +52,24 @@ const useCounterStore = create<CounterState>()(
     {
       name: 'counter-storage',
       storage: createDebouncedJSONStorage('localStorage', {
-        debounceTime: 1000, // Guarda después de 1 segundo de inactividad
+        debounceTime: 1000, // Save after 1 second of inactivity
       }),
     }
   )
 );
 ```
 
-En este ejemplo, si el usuario hace clic en el botón de incrementar 10 veces rápidamente, en lugar de realizar 10 operaciones de escritura al `localStorage`, solo se realizará **1 operación** después de 1 segundo de inactividad.
+In this example, if the user clicks the increment button 10 times quickly, instead of performing 10 write operations to `localStorage`, only **1 operation** will be performed after 1 second of inactivity.
 
-## ¿Listo para empezar?
+## Ready to get started?
 
-1. 📦 **[Instala la librería](./installation)** en tu proyecto
-2. 🚀 **[Sigue la guía de inicio rápido](./quick-start)** para configurarla
-3. ⚙️ **[Explora todas las opciones](./configuration)** disponibles
-4. 💡 **[Ve ejemplos avanzados](./examples)** para casos de uso específicos
+1. 📦 **[Install the library](./installation)** in your project
+2. 🚀 **[Follow the quick start guide](./quick-start)** to configure it
+3. ⚙️ **[Explore all available options](./configuration)**
+4. 💡 **[See advanced examples](./examples)** for specific use cases
 
 ---
 
-:::tip ¿Necesitas ayuda?
-Si tienes alguna pregunta o problema, no dudes en abrir un [issue en GitHub](https://github.com/AbianS/zustand-debounce/issues) o revisar nuestra [documentación completa](./configuration).
+:::tip Need help?
+If you have any questions or problems, don't hesitate to open an [issue on GitHub](https://github.com/AbianS/zustand-debounce/issues) or check our [complete documentation](./configuration).
 :::

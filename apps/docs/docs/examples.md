@@ -2,13 +2,13 @@
 sidebar_position: 5
 ---
 
-# Ejemplos Prácticos
+# Practical Examples
 
-Ejemplos del mundo real para diferentes casos de uso con **Zustand Debounce**.
+Real-world examples for different use cases with **Zustand Debounce**.
 
-## 📝 Editor de Texto
+## 📝 Text Editor
 
-Perfecto para editores donde quieres guardar el trabajo sin interrumpir al usuario.
+Perfect for editors where you want to save work without interrupting the user.
 
 ```typescript title="text-editor-store.ts"
 import { create } from 'zustand';
@@ -30,7 +30,7 @@ export const useEditorStore = create<EditorState>()(
   persist(
     (set, get) => ({
       content: '',
-      title: 'Documento sin título',
+      title: 'Untitled Document',
       lastSaved: null,
       isDirty: false,
       
@@ -41,14 +41,14 @@ export const useEditorStore = create<EditorState>()(
     {
       name: 'editor-document',
       storage: createDebouncedJSONStorage('localStorage', {
-        debounceTime: 2000, // 2 segundos después de parar de escribir
+        debounceTime: 2000, // 2 seconds after stopping typing
         onWrite: () => {
-          console.log('💾 Guardando borrador...');
+          console.log('💾 Saving draft...');
         },
         onSave: () => {
-          // Actualizar timestamp de guardado
+          // Update save timestamp
           useEditorStore.getState().markSaved();
-          console.log('✅ Documento guardado');
+          console.log('✅ Document saved');
         },
       }),
     }
@@ -74,10 +74,10 @@ export function TextEditor() {
         />
         <div className="save-status">
           {isDirty ? (
-            <span className="saving">💾 Guardando...</span>
+            <span className="saving">💾 Saving...</span>
           ) : (
             <span className="saved">
-              ✅ Guardado {lastSaved ? lastSaved.toLocaleTimeString() : ''}
+              ✅ Saved {lastSaved ? lastSaved.toLocaleTimeString() : ''}
             </span>
           )}
         </div>
@@ -86,7 +86,7 @@ export function TextEditor() {
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Empieza a escribir..."
+        placeholder="Start typing..."
         className="content-editor"
       />
     </div>
@@ -94,9 +94,9 @@ export function TextEditor() {
 }
 ```
 
-## 🛒 Carrito de Compras
+## 🛒 Shopping Cart
 
-Mantén el carrito sincronizado sin perder elementos por clics rápidos.
+Keep the cart synchronized without losing items due to rapid clicks.
 
 ```typescript title="shopping-cart-store.ts"
 import { create } from 'zustand';
@@ -167,9 +167,9 @@ export const useCartStore = create<CartState>()(
     {
       name: 'shopping-cart',
       storage: createDebouncedJSONStorage('localStorage', {
-        debounceTime: 500, // Respuesta rápida para UX
+        debounceTime: 500, // Fast response for UX
         onSave: (key, value) => {
-          // Opcional: sincronizar con servidor
+          // Optional: sync with server
           syncCartWithServer(JSON.parse(value));
         },
       }),
@@ -177,7 +177,7 @@ export const useCartStore = create<CartState>()(
   )
 );
 
-// Función auxiliar para sincronizar con servidor
+// Helper function to sync with server
 async function syncCartWithServer(cartData: any) {
   try {
     await fetch('/api/cart', {
@@ -186,14 +186,14 @@ async function syncCartWithServer(cartData: any) {
       body: JSON.stringify(cartData),
     });
   } catch (error) {
-    console.warn('No se pudo sincronizar el carrito con el servidor');
+    console.warn('Could not sync cart with server');
   }
 }
 ```
 
-## 👤 Perfil de Usuario
+## 👤 User Profile
 
-Guarda cambios del perfil con reintentos para datos importantes.
+Save profile changes with retries for important data.
 
 ```typescript title="user-profile-store.ts"
 import { create } from 'zustand';
@@ -224,7 +224,7 @@ export const useUserStore = create<UserState>()(
       avatar: '',
       preferences: {
         theme: 'light',
-        language: 'es',
+        language: 'en',
         notifications: true,
       },
       
@@ -245,30 +245,30 @@ export const useUserStore = create<UserState>()(
         retryDelay: 2000,
         
         onWrite: () => {
-          showNotification('Guardando perfil...', 'info');
+          showNotification('Saving profile...', 'info');
         },
         
         onSave: async (key, value) => {
-          showNotification('Perfil guardado', 'success');
+          showNotification('Profile saved', 'success');
           
-          // Sincronizar con API
+          // Sync with API
           try {
             await updateUserProfileAPI(JSON.parse(value));
           } catch (error) {
-            console.warn('No se pudo sincronizar con el servidor');
+            console.warn('Could not sync with server');
           }
         },
         
         onRetry: (key, attempt, error, delay) => {
           showNotification(
-            `Reintentando guardar perfil... (${attempt}/3)`,
+            `Retrying profile save... (${attempt}/3)`,
             'warning'
           );
         },
         
         onError: () => {
           showNotification(
-            'Error al guardar el perfil. Inténtalo más tarde.',
+            'Error saving profile. Try again later.',
             'error'
           );
         },
@@ -277,7 +277,7 @@ export const useUserStore = create<UserState>()(
   )
 );
 
-// Funciones auxiliares
+// Helper functions
 async function updateUserProfileAPI(profile: UserProfile) {
   const response = await fetch('/api/user/profile', {
     method: 'PUT',
@@ -286,19 +286,19 @@ async function updateUserProfileAPI(profile: UserProfile) {
   });
   
   if (!response.ok) {
-    throw new Error('Error al actualizar perfil');
+    throw new Error('Error updating profile');
   }
 }
 
 function showNotification(message: string, type: 'info' | 'success' | 'warning' | 'error') {
-  // Implementar tu sistema de notificaciones favorito
+  // Implement your favorite notification system
   console.log(`[${type.toUpperCase()}] ${message}`);
 }
 ```
 
-## 🎮 Estado de Juego
+## 🎮 Game State
 
-Para juegos donde quieres guardar progreso sin afectar el rendimiento.
+For games where you want to save progress without affecting performance.
 
 ```typescript title="game-state-store.ts"
 import { create } from 'zustand';
@@ -348,7 +348,7 @@ export const useGameStore = create<GameState>()(
       
       nextLevel: () => set((state) => ({
         level: state.level + 1,
-        lives: Math.min(5, state.lives + 1), // Vida extra por nivel
+        lives: Math.min(5, state.lives + 1), // Extra life per level
       })),
       
       addToInventory: (item) => set((state) => ({
@@ -371,22 +371,22 @@ export const useGameStore = create<GameState>()(
     {
       name: 'game-save',
       storage: createDebouncedJSONStorage('localStorage', {
-        debounceTime: 3000, // 3 segundos para no interrumpir el juego
-        maxRetries: 5, // Importante no perder el progreso
+        debounceTime: 3000, // 3 seconds to not interrupt the game
+        maxRetries: 5, // Important not to lose progress
         retryDelay: 1000,
         
         onSave: () => {
-          console.log('🎮 Juego guardado automáticamente');
+          console.log('🎮 Game saved automatically');
         },
         
         onError: () => {
-          // Mostrar aviso al jugador
-          showGameMessage('⚠️ No se pudo guardar el progreso');
+          // Show warning to player
+          showGameMessage('⚠️ Could not save progress');
         },
         
-        // Serialización personalizada para comprimir el save
+        // Custom serialization to compress the save
         serialize: (state) => {
-          // Solo guardar datos importantes, no funciones
+          // Only save important data, not functions
           const saveData = {
             level: state.level,
             score: state.score,
@@ -404,14 +404,14 @@ export const useGameStore = create<GameState>()(
 );
 
 function showGameMessage(message: string) {
-  // Mostrar mensaje en el UI del juego
+  // Show message in game UI
   console.log(message);
 }
 ```
 
-## 📊 Dashboard con Métricas
+## 📊 Dashboard with Metrics
 
-Para dashboards que se actualizan frecuentemente.
+For dashboards that update frequently.
 
 ```typescript title="dashboard-store.ts"
 import { create } from 'zustand';
@@ -473,14 +473,14 @@ export const useDashboardStore = create<DashboardState>()(
     {
       name: 'dashboard-config',
       storage: createDebouncedJSONStorage('localStorage', {
-        debounceTime: 1500, // Balance entre responsividad y rendimiento
-        throttleTime: 5000, // No más de una actualización cada 5 segundos
+        debounceTime: 1500, // Balance between responsiveness and performance
+        throttleTime: 5000, // No more than one update every 5 seconds
         
         onSave: () => {
-          console.log('📊 Configuración del dashboard guardada');
+          console.log('📊 Dashboard configuration saved');
         },
         
-        // TTL de 30 días para la configuración
+        // 30-day TTL for configuration
         ttl: 30 * 24 * 60 * 60 * 1000,
       }),
     }
@@ -490,18 +490,18 @@ export const useDashboardStore = create<DashboardState>()(
 
 ---
 
-:::tip Consejos para estos ejemplos
+:::tip Tips for these examples
 
-1. **Editor de texto**: `debounceTime` alto (2000ms) para no interrumpir la escritura
-2. **Carrito**: `debounceTime` bajo (500ms) para respuesta rápida del usuario
-3. **Perfil**: Reintentos habilitados porque los datos son importantes
-4. **Juego**: `debounceTime` alto (3000ms) para no afectar el rendimiento
-5. **Dashboard**: Combinación de debounce y throttle para balance perfecto
+1. **Text editor**: High `debounceTime` (2000ms) to not interrupt typing
+2. **Cart**: Low `debounceTime` (500ms) for quick user response
+3. **Profile**: Retries enabled because data is important
+4. **Game**: High `debounceTime` (3000ms) to not affect performance
+5. **Dashboard**: Combination of debounce and throttle for perfect balance
 
 :::
 
-## Próximos Pasos
+## Next Steps
 
-- 🔧 **[Crear adaptadores personalizados](./custom-adapters)** para bases de datos
-- ⚡ **[Optimización de rendimiento](./performance)** para casos específicos
-- ❓ **[Preguntas frecuentes](./faq)** sobre implementación
+- 🔧 **[Create custom adapters](./custom-adapters)** for databases
+- ⚡ **[Performance optimization](./performance)** for specific cases
+- ❓ **[Frequently asked questions](./faq)** about implementation

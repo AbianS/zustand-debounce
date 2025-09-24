@@ -2,13 +2,13 @@
 sidebar_position: 6
 ---
 
-# Adaptadores Personalizados
+# Custom Adapters
 
-Aprende a crear adaptadores personalizados para usar **Zustand Debounce** con cualquier sistema de almacenamiento.
+Learn how to create custom adapters to use **Zustand Debounce** with any storage system.
 
-## ¿Qué es un Adaptador?
+## What is an Adapter?
 
-Un adaptador es un objeto que implementa la interfaz `StateStorage` y permite a Zustand Debounce trabajar con diferentes sistemas de almacenamiento.
+An adapter is an object that implements the `StateStorage` interface and allows Zustand Debounce to work with different storage systems.
 
 ```typescript
 interface StateStorage {
@@ -18,7 +18,7 @@ interface StateStorage {
 }
 ```
 
-## Adaptador para IndexedDB
+## IndexedDB Adapter
 
 ```typescript title="indexeddb-adapter.ts"
 function createIndexedDBAdapter(dbName: string, storeName: string): StateStorage {
@@ -97,7 +97,7 @@ function createIndexedDBAdapter(dbName: string, storeName: string): StateStorage
   };
 }
 
-// Uso
+// Usage
 export const indexedDBStorage = createDebouncedJSONStorage(
   createIndexedDBAdapter('MyApp', 'zustand-store'),
   {
@@ -107,7 +107,7 @@ export const indexedDBStorage = createDebouncedJSONStorage(
 );
 ```
 
-## Adaptador para Redis
+## Redis Adapter
 
 ```typescript title="redis-adapter.ts"
 import Redis from 'ioredis';
@@ -145,7 +145,7 @@ function createRedisAdapter(redisUrl: string): StateStorage {
   };
 }
 
-// Uso
+// Usage
 export const redisStorage = createDebouncedJSONStorage(
   createRedisAdapter('redis://localhost:6379'),
   {
@@ -156,7 +156,7 @@ export const redisStorage = createDebouncedJSONStorage(
 );
 ```
 
-## Adaptador para React Native
+## React Native Adapter
 
 ```typescript title="react-native-adapter.ts"
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -190,7 +190,7 @@ const reactNativeAdapter: StateStorage = {
   },
 };
 
-// Uso
+// Usage
 export const reactNativeStorage = createDebouncedJSONStorage(
   reactNativeAdapter,
   {
@@ -202,6 +202,6 @@ export const reactNativeStorage = createDebouncedJSONStorage(
 
 ---
 
-:::tip Próximos pasos
-Explora más ejemplos en la [página de ejemplos](./examples) o revisa la [configuración avanzada](./configuration).
+:::tip Next steps
+Explore more examples on the [examples page](./examples) or check out [advanced configuration](./configuration).
 :::

@@ -2,147 +2,147 @@
 sidebar_position: 4
 ---
 
-# Configuración
+# Configuration
 
-Guía completa de todas las opciones de configuración disponibles en **Zustand Debounce**.
+Complete guide to all configuration options available in **Zustand Debounce**.
 
-## Opciones Básicas
+## Basic Options
 
 ### `debounceTime`
-- **Tipo**: `number`  
-- **Por defecto**: `0`
-- **Descripción**: Tiempo en milisegundos a esperar antes de guardar los cambios.
+- **Type**: `number`  
+- **Default**: `0`
+- **Description**: Time in milliseconds to wait before saving changes.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  debounceTime: 1000 // Espera 1 segundo
+  debounceTime: 1000 // Wait 1 second
 });
 ```
 
 ### `throttleTime`
-- **Tipo**: `number`
-- **Por defecto**: `0`  
-- **Descripción**: Tiempo mínimo entre operaciones de escritura.
+- **Type**: `number`
+- **Default**: `0`  
+- **Description**: Minimum time between write operations.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  throttleTime: 5000 // Máximo una escritura cada 5 segundos
+  throttleTime: 5000 // Maximum one write every 5 seconds
 });
 ```
 
 ### `immediately`
-- **Tipo**: `boolean`
-- **Por defecto**: `false`
-- **Descripción**: Si es `true`, guarda inmediatamente sin debounce.
+- **Type**: `boolean`
+- **Default**: `false`
+- **Description**: If `true`, saves immediately without debounce.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  immediately: true // Guarda al instante
+  immediately: true // Save instantly
 });
 ```
 
-## Opciones de Reintentos
+## Retry Options
 
 ### `maxRetries`
-- **Tipo**: `number`
-- **Por defecto**: `0`
-- **Descripción**: Número máximo de reintentos para operaciones fallidas.
+- **Type**: `number`
+- **Default**: `0`
+- **Description**: Maximum number of retries for failed operations.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  maxRetries: 3 // Reintenta hasta 3 veces
+  maxRetries: 3 // Retry up to 3 times
 });
 ```
 
 ### `retryDelay`
-- **Tipo**: `number`
-- **Por defecto**: `0`
-- **Descripción**: Tiempo base entre reintentos en milisegundos.
+- **Type**: `number`
+- **Default**: `0`
+- **Description**: Base time between retries in milliseconds.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   maxRetries: 3,
-  retryDelay: 1000 // Espera 1 segundo entre reintentos
+  retryDelay: 1000 // Wait 1 second between retries
 });
 ```
 
-## Callbacks de Eventos
+## Event Callbacks
 
 ### `onWrite`
-- **Tipo**: `(key: string, value: string) => void`
-- **Descripción**: Se ejecuta inmediatamente cuando se llama a `setItem`.
+- **Type**: `(key: string, value: string) => void`
+- **Description**: Executed immediately when `setItem` is called.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   onWrite: (key, value) => {
-    console.log(`📝 Escribiendo ${key}:`, value);
-    showStatusIndicator('Guardando...');
+    console.log(`📝 Writing ${key}:`, value);
+    showStatusIndicator('Saving...');
   }
 });
 ```
 
 ### `onSave`
-- **Tipo**: `(key: string, value: string) => void`
-- **Descripción**: Se ejecuta cuando los datos se guardan realmente.
+- **Type**: `(key: string, value: string) => void`
+- **Description**: Executed when data is actually saved.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   onSave: (key, value) => {
-    console.log(`💾 Guardado ${key}:`, value);
-    showStatusIndicator('Guardado ✅');
+    console.log(`💾 Saved ${key}:`, value);
+    showStatusIndicator('Saved ✅');
   }
 });
 ```
 
 ### `onRetry`
-- **Tipo**: `(key: string, attempt: number, error: any, delay: number) => void`
-- **Descripción**: Se ejecuta antes de cada reintento.
+- **Type**: `(key: string, attempt: number, error: any, delay: number) => void`
+- **Description**: Executed before each retry attempt.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   maxRetries: 3,
   retryDelay: 1000,
   onRetry: (key, attempt, error, delay) => {
-    console.log(`🔄 Reintento ${attempt} para ${key} en ${delay}ms`);
-    showNotification(`Reintentando... (${attempt}/3)`);
+    console.log(`🔄 Retry ${attempt} for ${key} in ${delay}ms`);
+    showNotification(`Retrying... (${attempt}/3)`);
   }
 });
 ```
 
 ### `onError`
-- **Tipo**: `(key: string, error: any) => void`
-- **Descripción**: Se ejecuta cuando fallan todos los reintentos.
+- **Type**: `(key: string, error: any) => void`
+- **Description**: Executed when all retries fail.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   maxRetries: 3,
   onError: (key, error) => {
-    console.error(`❌ Error final para ${key}:`, error);
-    showErrorNotification('No se pudieron guardar los cambios');
+    console.error(`❌ Final error for ${key}:`, error);
+    showErrorNotification('Could not save changes');
   }
 });
 ```
 
-## Serialización Personalizada
+## Custom Serialization
 
 ### `serialize`
-- **Tipo**: `(state: unknown) => string`
-- **Por defecto**: `JSON.stringify`
-- **Descripción**: Función personalizada para serializar el estado.
+- **Type**: `(state: unknown) => string`
+- **Default**: `JSON.stringify`
+- **Description**: Custom function to serialize the state.
 
 ### `deserialize`
-- **Tipo**: `(str: string) => unknown`
-- **Por defecto**: `JSON.parse`
-- **Descripción**: Función personalizada para deserializar el estado.
+- **Type**: `(str: string) => unknown`
+- **Default**: `JSON.parse`
+- **Description**: Custom function to deserialize the state.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   serialize: (state) => {
-    // Serialización personalizada con compresión
+    // Custom serialization with compression
     return LZ.compress(JSON.stringify(state));
   },
   deserialize: (str) => {
-    // Deserialización personalizada con descompresión
+    // Custom deserialization with decompression
     return JSON.parse(LZ.decompress(str));
   }
 });
@@ -151,95 +151,95 @@ const storage = createDebouncedJSONStorage('localStorage', {
 ## Time-to-Live (TTL)
 
 ### `ttl`
-- **Tipo**: `number`
-- **Por defecto**: `0` (sin expiración)
-- **Descripción**: Tiempo de vida en milisegundos para los datos almacenados.
+- **Type**: `number`
+- **Default**: `0` (no expiration)
+- **Description**: Lifetime in milliseconds for stored data.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  ttl: 24 * 60 * 60 * 1000 // 24 horas
+  ttl: 24 * 60 * 60 * 1000 // 24 hours
 });
 ```
 
-:::warning Importante
-Cuando se especifica `ttl`, los datos expirados se eliminan automáticamente al intentar leerlos.
+:::warning Important
+When `ttl` is specified, expired data is automatically removed when attempting to read it.
 :::
 
-## Combinación de Opciones
+## Option Combinations
 
-### Configuración para Aplicación de Chat
+### Configuration for Chat Application
 ```typescript
 const chatStorage = createDebouncedJSONStorage('localStorage', {
-  debounceTime: 500,    // Respuesta rápida
-  maxRetries: 5,        // Crítico no perder mensajes
-  retryDelay: 2000,     // Tiempo suficiente para recuperación
-  ttl: 7 * 24 * 60 * 60 * 1000, // 7 días
+  debounceTime: 500,    // Quick response
+  maxRetries: 5,        // Critical not to lose messages
+  retryDelay: 2000,     // Enough time for recovery
+  ttl: 7 * 24 * 60 * 60 * 1000, // 7 days
   onWrite: () => showTypingIndicator(),
   onSave: () => hideTypingIndicator(),
   onError: () => showOfflineMode()
 });
 ```
 
-### Configuración para Editor de Texto
+### Configuration for Text Editor
 ```typescript
 const editorStorage = createDebouncedJSONStorage('localStorage', {
-  debounceTime: 2000,   // No guardar en cada tecla
-  throttleTime: 10000,  // Máximo cada 10 segundos
+  debounceTime: 2000,   // Don't save on every keystroke
+  throttleTime: 10000,  // Maximum every 10 seconds
   maxRetries: 3,
-  onWrite: () => showStatus('Guardando...'),
-  onSave: () => showStatus('Guardado automáticamente'),
+  onWrite: () => showStatus('Saving...'),
+  onSave: () => showStatus('Auto-saved'),
   serialize: (state) => {
-    // Solo guardar el contenido, no el cursor
+    // Only save content, not cursor position
     const { content } = state as { content: string };
     return JSON.stringify({ content, savedAt: Date.now() });
   }
 });
 ```
 
-### Configuración para Datos Críticos
+### Configuration for Critical Data
 ```typescript
 const criticalStorage = createDebouncedJSONStorage('localStorage', {
-  immediately: true,    // Sin demora
-  maxRetries: 10,       // Muchos reintentos
+  immediately: true,    // No delay
+  maxRetries: 10,       // Many retries
   retryDelay: 1000,
   onRetry: (key, attempt) => {
     logToAnalytics(`critical_save_retry_${attempt}`, { key });
   },
   onError: (key, error) => {
-    // Enviar a servicio de monitoreo
+    // Send to monitoring service
     sendToSentry(error, { context: 'critical_storage', key });
   }
 });
 ```
 
-## Tabla de Referencia Rápida
+## Quick Reference Table
 
-| Opción | Tipo | Defecto | Descripción |
+| Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `debounceTime` | `number` | `0` | Tiempo de espera antes de guardar |
-| `throttleTime` | `number` | `0` | Tiempo mínimo entre escrituras |
-| `immediately` | `boolean` | `false` | Guardar sin demora |
-| `maxRetries` | `number` | `0` | Máximo número de reintentos |
-| `retryDelay` | `number` | `0` | Tiempo entre reintentos |
-| `ttl` | `number` | `0` | Tiempo de vida de los datos |
-| `onWrite` | `function` | - | Callback al escribir |
-| `onSave` | `function` | - | Callback al guardar |
-| `onRetry` | `function` | - | Callback en reintentos |
-| `onError` | `function` | - | Callback en errores |
-| `serialize` | `function` | `JSON.stringify` | Serialización personalizada |
-| `deserialize` | `function` | `JSON.parse` | Deserialización personalizada |
+| `debounceTime` | `number` | `0` | Wait time before saving |
+| `throttleTime` | `number` | `0` | Minimum time between writes |
+| `immediately` | `boolean` | `false` | Save without delay |
+| `maxRetries` | `number` | `0` | Maximum number of retries |
+| `retryDelay` | `number` | `0` | Time between retries |
+| `ttl` | `number` | `0` | Data lifetime |
+| `onWrite` | `function` | - | Callback on write |
+| `onSave` | `function` | - | Callback on save |
+| `onRetry` | `function` | - | Callback on retry |
+| `onError` | `function` | - | Callback on error |
+| `serialize` | `function` | `JSON.stringify` | Custom serialization |
+| `deserialize` | `function` | `JSON.parse` | Custom deserialization |
 
 ---
 
-:::tip Consejos de Rendimiento
-- **Debounce bajo (100-500ms)**: Para cambios poco frecuentes
-- **Debounce medio (500-2000ms)**: Para cambios frecuentes como formularios
-- **Debounce alto (2000-5000ms)**: Para editores de texto o datos no críticos
-- **Throttle**: Úsalo cuando quieras un límite máximo de escrituras por tiempo
+:::tip Performance Tips
+- **Low debounce (100-500ms)**: For infrequent changes
+- **Medium debounce (500-2000ms)**: For frequent changes like forms
+- **High debounce (2000-5000ms)**: For text editors or non-critical data
+- **Throttle**: Use when you want a maximum limit of writes per time
 :::
 
-## Próximos Pasos
+## Next Steps
 
-- 💡 **[Ver ejemplos prácticos](./examples)** de diferentes configuraciones
-- 🔧 **[Crear adaptadores personalizados](./custom-adapters)** para storage externo
-- ❓ **[Revisar preguntas frecuentes](./faq)** sobre configuración
+- 💡 **[See practical examples](./examples)** of different configurations
+- 🔧 **[Create custom adapters](./custom-adapters)** for external storage
+- ❓ **[Review frequently asked questions](./faq)** about configuration

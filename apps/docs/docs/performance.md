@@ -2,65 +2,65 @@
 sidebar_position: 7
 ---
 
-# Optimización de Rendimiento
+# Performance Optimization
 
-Guía para obtener el máximo rendimiento de **Zustand Debounce** en diferentes escenarios.
+Guide to get maximum performance from **Zustand Debounce** in different scenarios.
 
-## Configuración por Tipo de Aplicación
+## Configuration by Application Type
 
-### Aplicaciones de Chat/Mensajería
+### Chat/Messaging Applications
 ```typescript
 const chatStorage = createDebouncedJSONStorage('localStorage', {
-  debounceTime: 300,    // Respuesta rápida
-  throttleTime: 2000,   // Límite de escrituras
-  maxRetries: 5,        // Crítico no perder mensajes
+  debounceTime: 300,    // Fast response
+  throttleTime: 2000,   // Limit writes
+  maxRetries: 5,        // Critical not to lose messages
 });
 ```
 
-### Editores de Texto
+### Text Editors
 ```typescript
 const editorStorage = createDebouncedJSONStorage('localStorage', {
-  debounceTime: 2000,   // No interrumpir al usuario
+  debounceTime: 2000,   // Don't interrupt user
   maxRetries: 3,
   serialize: (state) => {
-    // Solo guardar contenido esencial
+    // Only save essential content
     const { content, title } = state;
     return JSON.stringify({ content, title });
   }
 });
 ```
 
-### Juegos
+### Games
 ```typescript
 const gameStorage = createDebouncedJSONStorage('localStorage', {
-  debounceTime: 5000,   // No afectar FPS
-  maxRetries: 10,       // Progreso es crítico
-  throttleTime: 10000,  // Máximo cada 10 segundos
+  debounceTime: 5000,   // Don't affect FPS
+  maxRetries: 10,       // Progress is critical
+  throttleTime: 10000,  // Maximum every 10 seconds
 });
 ```
 
-## Mejores Prácticas
+## Best Practices
 
-### 1. Optimizar Serialización
+### 1. Optimize Serialization
 ```typescript
 const optimizedStorage = createDebouncedJSONStorage('localStorage', {
   serialize: (state) => {
-    // Excluir datos no persistentes
+    // Exclude non-persistent data
     const { temporaryData, ...persistentState } = state;
     return JSON.stringify(persistentState);
   }
 });
 ```
 
-### 2. Usar TTL para Limpiar Datos
+### 2. Use TTL to Clean Data
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  ttl: 7 * 24 * 60 * 60 * 1000, // 7 días
+  ttl: 7 * 24 * 60 * 60 * 1000, // 7 days
   debounceTime: 1000,
 });
 ```
 
-### 3. Monitorear Rendimiento
+### 3. Monitor Performance
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   onWrite: () => performance.mark('storage-write-start'),

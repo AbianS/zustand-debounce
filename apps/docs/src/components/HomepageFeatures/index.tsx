@@ -12,44 +12,44 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Ultra Ligero',
+    title: 'Ultra Lightweight',
     icon: '🪶',
     badge: '1.74 kB',
     description: (
       <>
-        Solo <strong>1.74 kB</strong> comprimido y sin dependencias externas.
-        Optimizado para el mejor rendimiento posible sin comprometer
-        funcionalidad.
+        Only <strong>1.74 kB</strong> compressed and no external dependencies.
+        Optimized for the best possible performance without compromising
+        functionality.
       </>
     ),
   },
   {
-    title: 'Debounce Inteligente',
+    title: 'Smart Debounce',
     icon: '⏱️',
     description: (
       <>
-        Agrupa múltiples cambios en una sola operación de escritura, reduciendo
-        significativamente las operaciones de I/O y mejorando el rendimiento.
+        Groups multiple changes into a single write operation, significantly
+        reducing I/O operations and improving performance.
       </>
     ),
   },
   {
-    title: 'Múltiples Adaptadores',
+    title: 'Multiple Adapters',
     icon: '🗄️',
     description: (
       <>
-        Soporte para <code>localStorage</code>, <code>sessionStorage</code>,
-        <code>memoryStorage</code> y adaptadores personalizados.
+        Support for <code>localStorage</code>, <code>sessionStorage</code>,
+        <code>memoryStorage</code> and custom adapters.
       </>
     ),
   },
   {
-    title: 'Sistema de Reintentos',
+    title: 'Retry System',
     icon: '🔁',
     description: (
       <>
-        Reintentos automáticos con backoff exponencial configurable para
-        operaciones fallidas, garantizando la persistencia de datos.
+        Automatic retries with configurable exponential backoff for failed
+        operations, ensuring data persistence.
       </>
     ),
   },
@@ -58,19 +58,19 @@ const FeatureList: FeatureItem[] = [
     icon: '⌛',
     description: (
       <>
-        Especifica un tiempo de vida para los datos almacenados. Los datos
-        expirados se eliminan automáticamente del storage.
+        Specify a lifetime for stored data. Expired data is automatically
+        removed from storage.
       </>
     ),
   },
   {
-    title: 'TypeScript Completo',
+    title: 'Full TypeScript',
     icon: '📘',
     badge: 'TypeScript',
     description: (
       <>
-        Soporte completo para TypeScript con tipos estrictos y autocompletado.
-        Desarrollado con TypeScript desde el principio.
+        Full TypeScript support with strict types and autocompletion. Built with
+        TypeScript from the ground up.
       </>
     ),
   },
@@ -111,10 +111,10 @@ export default function HomepageFeatures(): ReactNode {
     <section className={styles.features}>
       <div className="container">
         <div className="text--center margin-bottom--xl">
-          <Heading as="h2">¿Por qué elegir Zustand Debounce?</Heading>
+          <Heading as="h2">Why choose Zustand Debounce?</Heading>
           <p className="lead">
-            Una extensión poderosa y ligera que mejora significativamente el
-            rendimiento de tu aplicación Zustand mediante debounce inteligente.
+            A powerful and lightweight extension that significantly improves
+            your Zustand application's performance through smart debouncing.
           </p>
         </div>
         <div className="row">

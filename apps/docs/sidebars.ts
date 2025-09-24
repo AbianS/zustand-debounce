@@ -20,13 +20,13 @@ const sidebars: SidebarsConfig = {
     'configuration',
     {
       type: 'category',
-      label: 'Guías Avanzadas',
+      label: 'Advanced Guides',
       collapsed: false,
       items: ['examples', 'custom-adapters', 'performance'],
     },
     {
       type: 'category',
-      label: 'Referencia',
+      label: 'Reference',
       collapsed: false,
       items: ['api-reference', 'migration', 'faq'],
     },

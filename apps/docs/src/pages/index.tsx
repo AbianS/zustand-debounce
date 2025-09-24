@@ -19,27 +19,27 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link className="button button--primary button--lg" to="/docs/intro">
-            Comenzar 🚀
+            Get Started 🚀
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/installation"
           >
-            Instalación 📦
+            Installation 📦
           </Link>
         </div>
         <div className={styles.heroStats}>
           <div className={styles.stat}>
             <span className={styles.statNumber}>1.74 kB</span>
-            <span className={styles.statLabel}>Tamaño minificado</span>
+            <span className={styles.statLabel}>Minified size</span>
           </div>
           <div className={styles.stat}>
             <span className={styles.statNumber}>0</span>
-            <span className={styles.statLabel}>Dependencias</span>
+            <span className={styles.statLabel}>Dependencies</span>
           </div>
           <div className={styles.stat}>
             <span className={styles.statNumber}>TypeScript</span>
-            <span className={styles.statLabel}>Soporte completo</span>
+            <span className={styles.statLabel}>Full support</span>
           </div>
         </div>
       </div>
@@ -51,8 +51,8 @@ export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title} - Debounce para Zustand`}
-      description="Almacenamiento JSON optimizado con debounce para Zustand. Reduce las operaciones de escritura y mejora el rendimiento de tu aplicación."
+      title={`${siteConfig.title} - Debounce for Zustand`}
+      description="Optimized JSON storage with debounce for Zustand. Reduces write operations and improves your application's performance."
     >
       <HomepageHeader />
       <main>

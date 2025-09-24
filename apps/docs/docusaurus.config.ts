@@ -6,8 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Zustand Debounce',
-  tagline: 'Almacenamiento JSON optimizado con debounce para Zustand',
-  favicon: 'img/favicon.ico',
+  tagline: 'Optimized JSON storage with debounce for Zustand',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -31,8 +30,8 @@ const config: Config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'es',
-    locales: ['es'],
+    defaultLocale: 'en',
+    locales: ['en'],
   },
 
   presets: [
@@ -53,20 +52,14 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/zustand-debounce-social.jpg',
     navbar: {
       title: 'Zustand Debounce',
-      logo: {
-        alt: 'Zustand Debounce Logo',
-        src: 'img/logo.svg',
-      },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Documentación',
+          label: 'Documentation',
         },
         {
           href: 'https://www.npmjs.com/package/zustand-debounce',
@@ -84,24 +77,24 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Documentación',
+          title: 'Documentation',
           items: [
             {
-              label: 'Inicio Rápido',
+              label: 'Quick Start',
               to: '/docs/intro',
             },
             {
-              label: 'Instalación',
+              label: 'Installation',
               to: '/docs/installation',
             },
             {
-              label: 'Configuración',
+              label: 'Configuration',
               to: '/docs/configuration',
             },
           ],
         },
         {
-          title: 'Más',
+          title: 'More',
           items: [
             {
               label: 'GitHub',
@@ -118,7 +111,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Zustand Debounce. Hecho con ❤️ por <a href="https://github.com/AbianS" target="_blank">AbianS</a>`,
+      copyright: `Copyright © ${new Date().getFullYear()} Zustand Debounce`,
     },
     prism: {
       theme: prismThemes.github,
@@ -133,7 +126,7 @@ const config: Config = {
     announcementBar: {
       id: 'new_version',
       content:
-        '⭐ Si te gusta Zustand Debounce, ¡dale una estrella en <a target="_blank" rel="noopener noreferrer" href="https://github.com/AbianS/zustand-debounce">GitHub</a>!',
+        '⭐ If you like Zustand Debounce, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/AbianS/zustand-debounce">GitHub</a>!',
       backgroundColor: '#fafbfc',
       textColor: '#091E42',
       isCloseable: true,

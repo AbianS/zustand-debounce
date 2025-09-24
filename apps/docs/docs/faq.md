@@ -2,117 +2,117 @@
 sidebar_position: 9
 ---
 
-# Preguntas Frecuentes (FAQ)
+# Frequently Asked Questions (FAQ)
 
-Respuestas a las preguntas más comunes sobre **Zustand Debounce**.
+Answers to the most common questions about **Zustand Debounce**.
 
-## ❓ Preguntas Generales
+## ❓ General Questions
 
-### ¿Qué es Zustand Debounce?
+### What is Zustand Debounce?
 
-Zustand Debounce es una extensión para Zustand que optimiza las operaciones de escritura al storage mediante debounce inteligente. En lugar de guardar cada cambio inmediatamente, agrupa múltiples cambios y los guarda una sola vez después de un período de inactividad.
+Zustand Debounce is an extension for Zustand that optimizes storage write operations through intelligent debouncing. Instead of saving each change immediately, it groups multiple changes and saves them once after a period of inactivity.
 
-### ¿Por qué necesito debounce en mi storage?
+### Why do I need debounce in my storage?
 
-**Sin debounce**: Si un usuario hace 10 cambios rápidos, se realizan 10 operaciones de escritura al localStorage/sessionStorage.
+**Without debounce**: If a user makes 10 quick changes, 10 write operations are performed to localStorage/sessionStorage.
 
-**Con debounce**: Los mismos 10 cambios se agrupan en 1 sola operación de escritura.
+**With debounce**: The same 10 changes are grouped into 1 single write operation.
 
-Esto resulta en:
-- 🚀 Mejor rendimiento
-- 🔋 Menos uso de CPU
-- 💾 Menos operaciones de I/O
-- ⚡ Aplicación más fluida
+This results in:
+- 🚀 Better performance
+- 🔋 Less CPU usage
+- 💾 Fewer I/O operations
+- ⚡ Smoother application
 
-### ¿Es compatible con mi proyecto actual?
+### Is it compatible with my current project?
 
-Zustand Debounce es un **drop-in replacement** para `createJSONStorage`. Solo necesitas:
+Zustand Debounce is a **drop-in replacement** for `createJSONStorage`. You only need:
 
 ```typescript
-// Antes
+// Before
 storage: createJSONStorage(() => localStorage)
 
-// Después  
+// After  
 storage: createDebouncedJSONStorage('localStorage', { debounceTime: 1000 })
 ```
 
-## 🔧 Configuración
+## 🔧 Configuration
 
-### ¿Qué valor de `debounceTime` debo usar?
+### What `debounceTime` value should I use?
 
-Depende de tu caso de uso:
+It depends on your use case:
 
-- **100-500ms**: Cambios poco frecuentes (configuraciones)
-- **500-1000ms**: Formularios y inputs del usuario
-- **1000-3000ms**: Editores de texto
-- **3000ms+**: Datos que cambian muy frecuentemente (juegos, animaciones)
+- **100-500ms**: Infrequent changes (settings)
+- **500-1000ms**: Forms and user inputs
+- **1000-3000ms**: Text editors
+- **3000ms+**: Data that changes very frequently (games, animations)
 
-### ¿Cuándo usar `throttleTime` vs `debounceTime`?
+### When to use `throttleTime` vs `debounceTime`?
 
-- **`debounceTime`**: Espera hasta que no haya más cambios
-- **`throttleTime`**: Garantiza un máximo de escrituras por tiempo
+- **`debounceTime`**: Waits until there are no more changes
+- **`throttleTime`**: Guarantees a maximum of writes per time
 
 ```typescript
-// Solo debounce: Espera 1 segundo después del último cambio
+// Only debounce: Wait 1 second after the last change
 debounceTime: 1000
 
-// Solo throttle: Máximo una escritura cada 5 segundos
+// Only throttle: Maximum one write every 5 seconds
 throttleTime: 5000
 
-// Ambos: Espera 1 segundo, pero nunca más de 5 segundos
+// Both: Wait 1 second, but never more than 5 seconds
 debounceTime: 1000,
 throttleTime: 5000
 ```
 
-### ¿Cuándo usar `immediately: true`?
+### When to use `immediately: true`?
 
-Cuando necesitas que ciertos cambios se guarden al instante sin espera:
+When you need certain changes to be saved instantly without delay:
 
 ```typescript
-// Para datos críticos como autenticación
+// For critical data like authentication
 const authStorage = createDebouncedJSONStorage('localStorage', {
-  immediately: true // Guarda tokens inmediatamente
+  immediately: true // Save tokens immediately
 });
 ```
 
-## 🔄 Reintentos
+## 🔄 Retries
 
-### ¿Cuándo habilitar reintentos?
+### When to enable retries?
 
-Habilita reintentos para datos importantes que no pueden perderse:
+Enable retries for important data that cannot be lost:
 
-- ✅ Progreso de juego
-- ✅ Carritos de compra
-- ✅ Formularios importantes
-- ❌ Preferencias visuales (tema, idioma)
-- ❌ Estados temporales
+- ✅ Game progress
+- ✅ Shopping carts
+- ✅ Important forms
+- ❌ Visual preferences (theme, language)
+- ❌ Temporary states
 
-### ¿Qué valores usar para reintentos?
+### What values to use for retries?
 
 ```typescript
-// Configuración conservadora
+// Conservative configuration
 maxRetries: 3,
 retryDelay: 1000
 
-// Configuración agresiva para datos críticos
+// Aggressive configuration for critical data
 maxRetries: 5,
 retryDelay: 2000
 ```
 
-## 🚀 Rendimiento
+## 🚀 Performance
 
-### ¿Afecta el rendimiento de mi aplicación?
+### Does it affect my application's performance?
 
-¡Todo lo contrario! Zustand Debounce **mejora** el rendimiento:
+Quite the opposite! Zustand Debounce **improves** performance:
 
-- ✅ Reduce operaciones de I/O al storage
-- ✅ Evita bloqueos del hilo principal
-- ✅ Solo 1.74 kB de overhead
-- ✅ Cero dependencias externas
+- ✅ Reduces I/O operations to storage
+- ✅ Prevents main thread blocking
+- ✅ Only 1.74 kB overhead
+- ✅ Zero external dependencies
 
-### ¿Funciona con React DevTools?
+### Does it work with React DevTools?
 
-Sí, completamente compatible. Zustand Debounce no interfiere con:
+Yes, fully compatible. Zustand Debounce doesn't interfere with:
 - React DevTools
 - Zustand DevTools
 - Time-travel debugging
@@ -120,57 +120,57 @@ Sí, completamente compatible. Zustand Debounce no interfiere con:
 
 ## 🐛 Troubleshooting
 
-### Los cambios no se guardan
+### Changes are not being saved
 
-**Posibles causas:**
+**Possible causes:**
 
-1. **`debounceTime` muy alto**: Los cambios siguen siendo "debouncados"
-2. **Error en storage**: Revisa la consola para errores
-3. **Storage lleno**: localStorage tiene límites de espacio
+1. **`debounceTime` too high**: Changes are still being "debounced"
+2. **Storage error**: Check console for errors
+3. **Storage full**: localStorage has space limits
 
-**Soluciones:**
+**Solutions:**
 
 ```typescript
-// Agregar logging para debug
+// Add logging for debug
 const storage = createDebouncedJSONStorage('localStorage', {
   debounceTime: 1000,
-  onWrite: (key) => console.log('📝 Escribiendo:', key),
-  onSave: (key) => console.log('💾 Guardado:', key),
+  onWrite: (key) => console.log('📝 Writing:', key),
+  onSave: (key) => console.log('💾 Saved:', key),
   onError: (key, error) => console.error('❌ Error:', key, error),
 });
 ```
 
 ### Error: "localStorage is not available"
 
-Esto ocurre en entornos sin browser (SSR, Node.js):
+This occurs in non-browser environments (SSR, Node.js):
 
 ```typescript
-// Solución: Detectar entorno
+// Solution: Detect environment
 const storage = createDebouncedJSONStorage(
   typeof window !== 'undefined' ? 'localStorage' : 'memoryStorage',
   { debounceTime: 1000 }
 );
 ```
 
-### Los reintentos no funcionan
+### Retries are not working
 
-Verifica que tengas los parámetros correctos:
+Verify that you have the correct parameters:
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  maxRetries: 3,     // ✅ Requerido
-  retryDelay: 1000,  // ✅ Requerido
+  maxRetries: 3,     // ✅ Required
+  retryDelay: 1000,  // ✅ Required
   onRetry: (key, attempt, error, delay) => {
-    console.log(`Reintento ${attempt}: ${error.message}`);
+    console.log(`Retry ${attempt}: ${error.message}`);
   }
 });
 ```
 
-## 📱 Compatibilidad
+## 📱 Compatibility
 
-### ¿Funciona con React Native?
+### Does it work with React Native?
 
-Sí, pero necesitas un adapter personalizado:
+Yes, but you need a custom adapter:
 
 ```typescript
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -192,9 +192,9 @@ const storage = createDebouncedJSONStorage(reactNativeAdapter, {
 });
 ```
 
-### ¿Funciona con Next.js?
+### Does it work with Next.js?
 
-Perfectamente compatible. Para SSR:
+Perfectly compatible. For SSR:
 
 ```typescript
 const storage = createDebouncedJSONStorage(
@@ -203,49 +203,49 @@ const storage = createDebouncedJSONStorage(
 );
 ```
 
-### ¿Funciona con otros frameworks?
+### Does it work with other frameworks?
 
-Sí, Zustand Debounce es framework-agnostic. Funciona con:
+Yes, Zustand Debounce is framework-agnostic. It works with:
 - ✅ React
-- ✅ Vue (con pinia-zustand-adapter)
+- ✅ Vue (with pinia-zustand-adapter)
 - ✅ Angular
 - ✅ Svelte
 - ✅ Vanilla JavaScript
 
-## 📝 Mejores Prácticas
+## 📝 Best Practices
 
-### ¿Cómo estructurar múltiples stores?
+### How to structure multiple stores?
 
 ```typescript
-// Separar por dominio
+// Separate by domain
 const useUserStore = create(persist(..., {
   name: 'user-data',
   storage: createDebouncedJSONStorage('localStorage', {
     debounceTime: 1000,
-    maxRetries: 3 // Datos importantes
+    maxRetries: 3 // Important data
   })
 }));
 
 const useUIStore = create(persist(..., {
   name: 'ui-preferences', 
   storage: createDebouncedJSONStorage('localStorage', {
-    debounceTime: 500 // Respuesta rápida para UX
+    debounceTime: 500 // Fast response for UX
   })
 }));
 ```
 
-### ¿Cómo manejar datos sensibles?
+### How to handle sensitive data?
 
 ```typescript
 const sensitiveStorage = createDebouncedJSONStorage('sessionStorage', {
-  debounceTime: 0, // Sin demora para datos sensibles
-  ttl: 30 * 60 * 1000, // Expira en 30 minutos
+  debounceTime: 0, // No delay for sensitive data
+  ttl: 30 * 60 * 1000, // Expires in 30 minutes
   serialize: (data) => {
-    // Encriptar antes de guardar
+    // Encrypt before saving
     return encrypt(JSON.stringify(data));
   },
   deserialize: (str) => {
-    // Desencriptar al leer
+    // Decrypt when reading
     return JSON.parse(decrypt(str));
   }
 });
@@ -253,19 +253,19 @@ const sensitiveStorage = createDebouncedJSONStorage('sessionStorage', {
 
 ---
 
-:::tip ¿No encuentras tu pregunta?
-Si tienes una pregunta que no está aquí, por favor:
-1. Revisa la [documentación completa](./configuration)
-2. Busca en [GitHub Issues](https://github.com/AbianS/zustand-debounce/issues)
-3. Abre un nuevo issue si no encuentras la respuesta
+:::tip Can't find your question?
+If you have a question that's not here, please:
+1. Check the [complete documentation](./configuration)
+2. Search [GitHub Issues](https://github.com/AbianS/zustand-debounce/issues)
+3. Open a new issue if you can't find the answer
 :::
 
-## 🤝 Contribuir
+## 🤝 Contributing
 
-¿Encontraste un bug o tienes una idea para mejorar? ¡Las contribuciones son bienvenidas!
+Found a bug or have an idea to improve? Contributions are welcome!
 
-1. Fork el repositorio
-2. Crea una rama para tu feature
-3. Envía un Pull Request
+1. Fork the repository
+2. Create a branch for your feature
+3. Send a Pull Request
 
-[Ver más en GitHub →](https://github.com/AbianS/zustand-debounce)
+[See more on GitHub →](https://github.com/AbianS/zustand-debounce)

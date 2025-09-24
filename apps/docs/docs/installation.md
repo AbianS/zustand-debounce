@@ -2,74 +2,74 @@
 sidebar_position: 2
 ---
 
-# Instalación
+# Installation
 
-Aprende cómo instalar y configurar **Zustand Debounce** en tu proyecto.
+Learn how to install and configure **Zustand Debounce** in your project.
 
-## Requisitos Previos
+## Prerequisites
 
-Antes de instalar Zustand Debounce, asegúrate de tener:
+Before installing Zustand Debounce, make sure you have:
 
-- **Node.js** versión 16.0 o superior
-- **Zustand** versión 4.0.0 o superior instalado en tu proyecto
+- **Node.js** version 16.0 or higher
+- **Zustand** version 4.0.0 or higher installed in your project
 
-:::info Nota sobre Zustand
-Zustand Debounce es una extensión para Zustand, por lo que necesitas tener Zustand instalado como dependencia en tu proyecto.
+:::info Note about Zustand
+Zustand Debounce is an extension for Zustand, so you need to have Zustand installed as a dependency in your project.
 :::
 
-## Instalación con NPM
+## Installation with NPM
 
 ```bash
 npm install zustand-debounce
 ```
 
-## Instalación con Yarn
+## Installation with Yarn
 
 ```bash
 yarn add zustand-debounce
 ```
 
-## Instalación with PNPM
+## Installation with PNPM
 
 ```bash
 pnpm add zustand-debounce
 ```
 
-## Verificar la Instalación
+## Verify Installation
 
-Después de la instalación, puedes verificar que todo funcione correctamente creando un pequeño ejemplo:
+After installation, you can verify that everything works correctly by creating a small example:
 
 ```typescript
 import { createDebouncedJSONStorage } from 'zustand-debounce';
 
-// Si no hay errores, la instalación fue exitosa
+// If there are no errors, the installation was successful
 const storage = createDebouncedJSONStorage('localStorage', {
   debounceTime: 1000
 });
 
-console.log('✅ Zustand Debounce instalado correctamente!');
+console.log('✅ Zustand Debounce installed correctly!');
 ```
 
-## Instalación de Zustand (Si aún no lo tienes)
+## Installing Zustand (If you don't have it yet)
 
-Si aún no tienes Zustand instalado en tu proyecto:
+If you don't have Zustand installed in your project yet:
 
 ```bash
-# Con npm
+# With npm
 npm install zustand
 
-# Con yarn
+# With yarn
 yarn add zustand
 
-# Con pnpm
+# With pnpm
 pnpm add zustand
 ```
 
-## Configuración TypeScript
+## TypeScript Configuration
 
-Si estás usando TypeScript, no necesitas instalar tipos adicionales ya que **Zustand Debounce incluye sus propios tipos TypeScript**.
+If you're using TypeScript, you don't need to install additional types since **Zustand Debounce includes its own TypeScript types**.
 
-### Configuración `tsconfig.json` Recomendada
+### Recommended `tsconfig.json` Configuration
 
 ```json
 {
@@ -91,27 +91,27 @@ Si estás usando TypeScript, no necesitas instalar tipos adicionales ya que **Zu
 Zustand Debounce está optimizado para ser extremadamente ligero:
 
 - **📦 Bundle size**: 1.74 kB (minified + gzipped)
-- **🚀 Zero dependencies**: No dependencias externas adicionales
-- **🌳 Tree-shakable**: Solo importa lo que necesitas
+- **🚀 Zero dependencies**: No additional external dependencies
+- **🌳 Tree-shakable**: Only import what you need
 
-## Compatibilidad
+## Compatibility
 
-| Herramienta | Versión Mínima | ✅ Compatible |
+| Tool        | Minimum Version | ✅ Compatible |
 |-------------|----------------|---------------|
 | Node.js     | 16.0+          | ✅            |
 | Zustand     | 4.0.0+         | ✅            |
 
-## Siguiente Paso
+## Next Step
 
-¡Excelente! Ahora que tienes Zustand Debounce instalado, continúa con la [**Guía de Inicio Rápido**](./quick-start) para aprender cómo usar la librería.
+Excellent! Now that you have Zustand Debounce installed, continue with the [**Quick Start Guide**](./quick-start) to learn how to use the library.
 
 ---
 
-:::tip ¿Problemas con la instalación?
-Si encuentras algún problema durante la instalación, revisa:
-- Que tengas la versión correcta de Node.js
-- Que Zustand esté instalado en tu proyecto
-- Los logs de error completos para diagnosticar el problema
+:::tip Installation problems?
+If you encounter any problems during installation, check:
+- That you have the correct version of Node.js
+- That Zustand is installed in your project
+- The complete error logs to diagnose the problem
 
-También puedes abrir un [issue en GitHub](https://github.com/AbianS/zustand-debounce/issues) si necesitas ayuda.
+You can also open an [issue on GitHub](https://github.com/AbianS/zustand-debounce/issues) if you need help.
 :::

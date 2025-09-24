@@ -2,13 +2,13 @@
 sidebar_position: 8
 ---
 
-# Referencia de API
+# API Reference
 
-Documentación completa de la API de **Zustand Debounce**.
+Complete API documentation for **Zustand Debounce**.
 
 ## `createDebouncedJSONStorage`
 
-Función principal para crear un storage con debounce.
+Main function to create a debounced storage.
 
 ```typescript
 function createDebouncedJSONStorage(
@@ -17,34 +17,34 @@ function createDebouncedJSONStorage(
 ): PersistStorage<unknown>
 ```
 
-### Parámetros
+### Parameters
 
 #### `storageApi`
-- **Tipo**: `AdapterIdentifier`
-- **Valores**: `'localStorage' | 'sessionStorage' | 'memoryStorage' | StateStorage`
+- **Type**: `AdapterIdentifier`
+- **Values**: `'localStorage' | 'sessionStorage' | 'memoryStorage' | StateStorage`
 
 #### `options`
-- **Tipo**: `EnhancedJsonStorageOptions`
-- **Opcional**: Sí
+- **Type**: `EnhancedJsonStorageOptions`
+- **Optional**: Yes
 
-### Opciones Disponibles
+### Available Options
 
-| Opción | Tipo | Defecto | Descripción |
+| Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `debounceTime` | `number` | `0` | Tiempo de espera en ms |
-| `throttleTime` | `number` | `0` | Tiempo mínimo entre escrituras |
-| `immediately` | `boolean` | `false` | Guardar inmediatamente |
-| `maxRetries` | `number` | `0` | Número máximo de reintentos |
-| `retryDelay` | `number` | `0` | Tiempo entre reintentos |
-| `ttl` | `number` | `0` | Tiempo de vida de los datos |
-| `onWrite` | `function` | - | Callback al escribir |
-| `onSave` | `function` | - | Callback al guardar |
-| `onRetry` | `function` | - | Callback en reintentos |
-| `onError` | `function` | - | Callback en errores |
-| `serialize` | `function` | `JSON.stringify` | Función de serialización |
-| `deserialize` | `function` | `JSON.parse` | Función de deserialización |
+| `debounceTime` | `number` | `0` | Wait time in ms |
+| `throttleTime` | `number` | `0` | Minimum time between writes |
+| `immediately` | `boolean` | `false` | Save immediately |
+| `maxRetries` | `number` | `0` | Maximum number of retries |
+| `retryDelay` | `number` | `0` | Time between retries |
+| `ttl` | `number` | `0` | Data lifetime |
+| `onWrite` | `function` | - | Callback on write |
+| `onSave` | `function` | - | Callback on save |
+| `onRetry` | `function` | - | Callback on retry |
+| `onError` | `function` | - | Callback on error |
+| `serialize` | `function` | `JSON.stringify` | Serialization function |
+| `deserialize` | `function` | `JSON.parse` | Deserialization function |
 
-### Ejemplo de Uso
+### Usage Example
 
 ```typescript
 import { createDebouncedJSONStorage } from 'zustand-debounce';
@@ -52,11 +52,11 @@ import { createDebouncedJSONStorage } from 'zustand-debounce';
 const storage = createDebouncedJSONStorage('localStorage', {
   debounceTime: 1000,
   maxRetries: 3,
-  onSave: (key, value) => console.log('Guardado:', key)
+  onSave: (key, value) => console.log('Saved:', key)
 });
 ```
 
-## Tipos TypeScript
+## TypeScript Types
 
 ### `EnhancedJsonStorageOptions`
 

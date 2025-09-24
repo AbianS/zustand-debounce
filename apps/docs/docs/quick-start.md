@@ -2,13 +2,13 @@
 sidebar_position: 3
 ---
 
-# Inicio Rápido
+# Quick Start
 
-Aprende a usar **Zustand Debounce** en menos de 5 minutos con ejemplos prácticos.
+Learn to use **Zustand Debounce** in less than 5 minutes with practical examples.
 
-## Configuración Básica
+## Basic Configuration
 
-La forma más simple de usar Zustand Debounce es reemplazar `createJSONStorage` con `createDebouncedJSONStorage`:
+The simplest way to use Zustand Debounce is to replace `createJSONStorage` with `createDebouncedJSONStorage`:
 
 ```typescript title="store.ts"
 import { create } from 'zustand';
@@ -33,14 +33,14 @@ export const useCounterStore = create<CounterState>()(
     {
       name: 'counter-storage',
       storage: createDebouncedJSONStorage('localStorage', {
-        debounceTime: 1000, // Espera 1 segundo antes de guardar
+        debounceTime: 1000, // Wait 1 second before saving
       }),
     }
   )
 );
 ```
 
-## Uso en Componente React
+## Usage in React Component
 
 ```tsx title="Counter.tsx"
 import React from 'react';
@@ -51,7 +51,7 @@ export function Counter() {
 
   return (
     <div>
-      <h2>Contador: {count}</h2>
+      <h2>Counter: {count}</h2>
       <div>
         <button onClick={increment}>+1</button>
         <button onClick={decrement}>-1</button>
@@ -59,7 +59,7 @@ export function Counter() {
       </div>
       <p>
         <small>
-          Los cambios se guardan automáticamente después de 1 segundo de inactividad
+          Changes are automatically saved after 1 second of inactivity
         </small>
       </p>
     </div>
@@ -67,18 +67,18 @@ export function Counter() {
 }
 ```
 
-## ¿Qué está pasando aquí?
+## What's happening here?
 
-1. **Sin debounce**: Cada clic guarda inmediatamente al localStorage (10 clics = 10 escrituras)
-2. **Con debounce**: Los clics se agrupan y solo se guarda una vez después de 1 segundo de inactividad (10 clics = 1 escritura)
+1. **Without debounce**: Each click saves immediately to localStorage (10 clicks = 10 writes)
+2. **With debounce**: Clicks are grouped and only saved once after 1 second of inactivity (10 clicks = 1 write)
 
-:::info Resultado
-**Reducción del 90% en operaciones de escritura** en este ejemplo.
+:::info Result
+**90% reduction in write operations** in this example.
 :::
 
-## Ejemplo con Eventos
+## Example with Events
 
-Puedes recibir notificaciones cuando ocurren eventos de escritura y guardado:
+You can receive notifications when write and save events occur:
 
 ```typescript title="store-with-events.ts"
 import { create } from 'zustand';
@@ -105,11 +105,11 @@ export const useUserStore = create<UserState>()(
       storage: createDebouncedJSONStorage('localStorage', {
         debounceTime: 500,
         onWrite: (key, value) => {
-          console.log('📝 Cambio detectado en:', key);
+          console.log('📝 Change detected in:', key);
         },
         onSave: (key, value) => {
-          console.log('💾 Datos guardados en:', key);
-          // Mostrar notificación de "Guardado automáticamente"
+          console.log('💾 Data saved in:', key);
+          // Show "Auto-saved" notification
         },
       }),
     }
@@ -117,32 +117,32 @@ export const useUserStore = create<UserState>()(
 );
 ```
 
-## Diferentes Tipos de Storage
+## Different Storage Types
 
-### localStorage (Persistente)
+### localStorage (Persistent)
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   debounceTime: 1000
 });
 ```
 
-### sessionStorage (Sesión)
+### sessionStorage (Session)
 ```typescript
 const storage = createDebouncedJSONStorage('sessionStorage', {
   debounceTime: 500
 });
 ```
 
-### memoryStorage (En memoria)
+### memoryStorage (In-memory)
 ```typescript
 const storage = createDebouncedJSONStorage('memoryStorage', {
   debounceTime: 100
 });
 ```
 
-## Sistema de Reintentos
+## Retry System
 
-Para operaciones críticas, puedes habilitar reintentos automáticos:
+For critical operations, you can enable automatic retries:
 
 ```typescript title="store-with-retry.ts"
 export const useCriticalStore = create()(
@@ -158,11 +158,11 @@ export const useCriticalStore = create()(
         maxRetries: 3,
         retryDelay: 1000,
         onRetry: (key, attempt, error, delay) => {
-          console.log(`🔄 Reintento ${attempt}/3 en ${delay}ms`);
+          console.log(`🔄 Retry ${attempt}/3 in ${delay}ms`);
         },
         onError: (key, error) => {
-          console.error('❌ Error al guardar:', error);
-          // Mostrar notificación de error al usuario
+          console.error('❌ Error saving:', error);
+          // Show error notification to user
         },
       }),
     }
@@ -170,17 +170,17 @@ export const useCriticalStore = create()(
 );
 ```
 
-## Próximos Pasos
+## Next Steps
 
-¡Excelente! Ya sabes lo básico de Zustand Debounce. Ahora puedes:
+Excellent! You now know the basics of Zustand Debounce. Now you can:
 
-1. 📖 **[Explorar todas las opciones de configuración](./configuration)**
-2. 💡 **[Ver ejemplos avanzados](./examples)**
-3. 🔧 **[Crear adaptadores personalizados](./custom-adapters)**
-4. ❓ **[Revisar las preguntas frecuentes](./faq)**
+1. 📖 **[Explore all configuration options](./configuration)**
+2. 💡 **[See advanced examples](./examples)**
+3. 🔧 **[Create custom adapters](./custom-adapters)**
+4. ❓ **[Review frequently asked questions](./faq)**
 
 ---
 
-:::tip Consejo Pro
-Para aplicaciones con muchos cambios frecuentes, prueba con un `debounceTime` entre 500-2000ms. Para cambios menos frecuentes, 100-500ms suele ser suficiente.
+:::tip Pro Tip
+For applications with many frequent changes, try a `debounceTime` between 500-2000ms. For less frequent changes, 100-500ms is usually sufficient.
 :::
