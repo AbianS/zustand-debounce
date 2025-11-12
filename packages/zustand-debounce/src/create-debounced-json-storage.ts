@@ -6,7 +6,8 @@ import { SerializationDecorator } from './core/decorators/serialization.decorato
 import { ThrottleDecorator } from './core/decorators/throttle.decorator';
 import { TTLDecorator } from './core/decorators/ttl.decorator';
 import { EventEmitter } from './core/event-emitter';
-import { EnhancedJsonStorageOptions, IStorage } from './types';
+import { PluginManager } from './core/plugin-manager';
+import type { EnhancedJsonStorageOptions, IStorage } from './types';
 import {
   AdapterIdentifier,
   getStorageAdapter,
@@ -17,8 +18,6 @@ export function createDebouncedJSONStorage(
   options: EnhancedJsonStorageOptions = {},
 ) {
   const eventEmitter = new EventEmitter();
-
-  let storage: IStorage = new BaseStorage(getStorageAdapter(storageApi));
 
   const {
     debounceTime,
@@ -31,8 +30,23 @@ export function createDebouncedJSONStorage(
     serialize,
     deserialize,
     ttl,
+    plugins = [],
     ...restOptions
   } = options;
+
+  // Initialize plugin manager if plugins are provided
+  let pluginManager: PluginManager | undefined;
+  if (plugins.length > 0) {
+    pluginManager = new PluginManager();
+    pluginManager.register(plugins);
+  }
+
+  // Create base storage with optional plugin manager
+  // Plugins operate at the data layer (before/after actual storage operations)
+  let storage: IStorage = new BaseStorage(
+    getStorageAdapter(storageApi),
+    pluginManager,
+  );
 
   if (serialize && deserialize) {
     storage = new SerializationDecorator(storage, { serialize, deserialize });

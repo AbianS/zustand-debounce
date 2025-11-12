@@ -1,2 +1,2 @@
 export { createDebouncedJSONStorage } from './create-debounced-json-storage';
-export type { EnhancedJsonStorageOptions } from './types';
+export type { EnhancedJsonStorageOptions, Plugin } from './types';

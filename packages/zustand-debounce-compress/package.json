@@ -1,0 +1,59 @@
+{
+  "name": "zustand-debounce-compress",
+  "version": "1.0.0",
+  "description": "Compression plugin for zustand-debounce - reduces storage size with LZ-based compression",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "repository": "https://github.com/AbianS/zustand-debounce",
+  "homepage": "https://abians.github.io/zustand-debounce/",
+  "files": ["dist"],
+  "scripts": {
+    "dev": "tsup --config tsup.config.ts --dts --watch",
+    "build": "tsup --config tsup.config.ts --dts",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "size": "size-limit"
+  },
+  "keywords": [
+    "zustand",
+    "debounce",
+    "zustand-debounce",
+    "compression",
+    "lz-string",
+    "plugin"
+  ],
+  "author": "AbianS",
+  "license": "MIT",
+  "dependencies": {
+    "lz-string": "1.5.0"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "11.2.0",
+    "@types/jest": "30.0.0",
+    "@types/lz-string": "1.3.34",
+    "@types/node": "24.10.1",
+    "jest": "30.2.0",
+    "size-limit": "11.2.0",
+    "ts-jest": "29.4.5",
+    "ts-node": "10.9.2",
+    "tsup": "8.5.0",
+    "typescript": "5.9.3",
+    "zustand-debounce": "workspace:*"
+  },
+  "peerDependencies": {
+    "zustand-debounce": ">=2.0.0"
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.mjs",
+      "limit": "5 KB"
+    }
+  ]
+}
