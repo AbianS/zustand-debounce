@@ -28,6 +28,8 @@ Zustand Debounce enhances the capabilities of Zustand by introducing a debounced
 
 ✅ **Full TypeScript Support:** Fully typed for TypeScript projects 📘
 
+✅ **Plugin System:** Extensible plugin architecture for custom functionality 🔌
+
 ## 📦 Installation
 
 ```bash
@@ -46,6 +48,7 @@ pnpm add zustand-debounce
 - [🔧 Usage](#-usage)
 - [⚙️ Options](#️-options)
 - [🌟 Advanced Usage](#-advanced-usage)
+- [🔌 Plugin System](#-plugin-system)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 - [💬 Support](#-support)
@@ -249,6 +252,105 @@ const customDBStorage = createDebouncedJSONStorage(
   }
 );
 ```
+
+## 🔌 Plugin System
+
+Zustand Debounce now features a powerful plugin system that allows you to extend storage functionality with custom transformations. Plugins can intercept data before it's written to storage and after it's read, enabling features like compression, encryption, and more.
+
+### Using Plugins
+
+Plugins are passed as an array in the `plugins` option. They are executed in order, allowing you to compose multiple transformations:
+
+```ts
+import { createDebouncedJSONStorage } from 'zustand-debounce';
+import { compress } from 'zustand-debounce-compress';
+
+const storage = createDebouncedJSONStorage('localStorage', {
+  debounceTime: 1000,
+  plugins: [
+    compress({ algorithm: 'lz-string' })
+  ]
+});
+```
+
+### Official Plugins
+
+#### 🗜️ zustand-debounce-compress
+
+Automatically compress your state to reduce storage size by 50-80%. Perfect for large state objects or apps approaching localStorage quota limits.
+
+```bash
+npm install zustand-debounce-compress
+```
+
+```ts
+import { compress } from 'zustand-debounce-compress';
+
+const storage = createDebouncedJSONStorage('localStorage', {
+  debounceTime: 1000,
+  plugins: [
+    compress({ algorithm: 'lz-string' }) // or 'base64'
+  ]
+});
+```
+
+**Features:**
+- Reduces storage size by 50-80% for typical JSON data
+- Two algorithms: `'lz-string'` (fastest, best compression) and `'base64'` (URI-safe)
+- Transparent compression/decompression
+- Graceful error handling
+
+[📖 Full documentation](./packages/zustand-debounce-compress/README.md)
+
+### Creating Custom Plugins
+
+You can create your own plugins by implementing the `Plugin` interface:
+
+```ts
+import type { Plugin } from 'zustand-debounce';
+
+const myPlugin: Plugin = {
+  name: 'my-custom-plugin',
+  
+  // Transform data before writing to storage
+  beforeSetItem: (value: string) => {
+    // Your transformation logic here
+    return transformedValue;
+  },
+  
+  // Transform data after reading from storage
+  afterGetItem: (value: string | null) => {
+    if (!value) return null;
+    // Your transformation logic here
+    return transformedValue;
+  }
+};
+
+// Use your plugin
+const storage = createDebouncedJSONStorage('localStorage', {
+  plugins: [myPlugin]
+});
+```
+
+**Plugin execution order:**
+- On write: Plugin 1 → Plugin 2 → Plugin N → Storage
+- On read: Storage → Plugin 1 → Plugin 2 → Plugin N
+
+### Plugin Composition
+
+Plugins can be composed together for powerful transformations:
+
+```ts
+const storage = createDebouncedJSONStorage('localStorage', {
+  debounceTime: 1000,
+  plugins: [
+    compress({ algorithm: 'lz-string' }), // Compress first
+    // encrypt({ key: myKey }),            // Then encrypt (coming soon)
+  ]
+});
+```
+
+**Note:** Order matters! The first plugin processes data first on write, and processes data first on read.
 
 ## 🤝 Contributing
 

@@ -120,6 +120,90 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
    * @default 0 - No expiration
    */
   ttl?: number;
+
+  /**
+   * Array of plugins to extend storage functionality.
+   * Plugins are executed in the order they are provided in the array.
+   * Each plugin can transform data before writing to storage and after reading from storage.
+   * 
+   * @example
+   * ```ts
+   * import { compress } from 'zustand-debounce-compress';
+   * 
+   * const storage = createDebouncedJSONStorage('localStorage', {
+   *   debounceTime: 1000,
+   *   plugins: [
+   *     compress({ algorithm: 'lz-string' })
+   *   ]
+   * });
+   * ```
+   */
+  plugins?: Plugin[];
+}
+
+/**
+ * Plugin interface for extending storage functionality.
+ * Plugins can intercept and transform data during storage operations.
+ * All hooks are synchronous to maintain performance and simplicity.
+ * 
+ * @example
+ * ```ts
+ * const myPlugin: Plugin = {
+ *   name: 'my-custom-plugin',
+ *   beforeSetItem: (value) => {
+ *     // Transform value before saving
+ *     return transformedValue;
+ *   },
+ *   afterGetItem: (value) => {
+ *     // Transform value after reading
+ *     return transformedValue;
+ *   }
+ * };
+ * ```
+ */
+export interface Plugin {
+  /**
+   * Unique name identifier for the plugin.
+   * Used for debugging and error messages.
+   */
+  name: string;
+
+  /**
+   * Hook called before writing a value to storage.
+   * Receives the serialized value and can return a transformed version.
+   * Plugins are executed in array order (first to last).
+   * 
+   * @param value - The serialized value about to be written to storage
+   * @returns Transformed value or undefined to skip transformation
+   * 
+   * @example
+   * ```ts
+   * beforeSetItem: (value) => {
+   *   // Compress the value before storage
+   *   return LZString.compress(value);
+   * }
+   * ```
+   */
+  beforeSetItem?: (value: string) => string | undefined;
+
+  /**
+   * Hook called after reading a value from storage.
+   * Receives the raw value from storage and can return a transformed version.
+   * Plugins are executed in array order (first to last).
+   * 
+   * @param value - The raw value read from storage (or null if not found)
+   * @returns Transformed value, null, or undefined to skip transformation
+   * 
+   * @example
+   * ```ts
+   * afterGetItem: (value) => {
+   *   if (!value) return null;
+   *   // Decompress the value after reading
+   *   return LZString.decompress(value);
+   * }
+   * ```
+   */
+  afterGetItem?: (value: string | null) => string | null | undefined;
 }
 
 export interface IStorage {

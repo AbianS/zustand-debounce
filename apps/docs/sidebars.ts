@@ -18,6 +18,7 @@ const sidebars: SidebarsConfig = {
     'installation',
     'quick-start',
     'configuration',
+    'plugins',
     {
       type: 'category',
       label: 'Advanced Guides',
