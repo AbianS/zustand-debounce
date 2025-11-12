@@ -1,6 +1,6 @@
 {
   "name": "zustand-debounce-compress",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Compression plugin for zustand-debounce - reduces storage size with LZ-based compression",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -13,7 +13,9 @@
   },
   "repository": "https://github.com/AbianS/zustand-debounce",
   "homepage": "https://abians.github.io/zustand-debounce/",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsup --config tsup.config.ts --dts --watch",
     "build": "tsup --config tsup.config.ts --dts",
@@ -48,7 +50,7 @@
     "zustand-debounce": "workspace:*"
   },
   "peerDependencies": {
-    "zustand-debounce": ">=2.0.0"
+    "zustand-debounce": ">=2.3.0"
   },
   "size-limit": [
     {

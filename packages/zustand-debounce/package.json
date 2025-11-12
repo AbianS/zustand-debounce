@@ -1,6 +1,6 @@
 {
   "name": "zustand-debounce",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -13,7 +13,9 @@
   },
   "repository": "https://github.com/AbianS/zustand-debounce",
   "homepage": "https://abians.github.io/zustand-debounce/",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsup --config tsup.config.ts --dts --watch",
     "build": "tsup --config tsup.config.ts --dts",
@@ -21,7 +23,12 @@
     "test:cov": "jest --coverage",
     "size": "size-limit"
   },
-  "keywords": ["zustand", "debounce", "zustand-debounce", "zustand debounce"],
+  "keywords": [
+    "zustand",
+    "debounce",
+    "zustand-debounce",
+    "zustand debounce"
+  ],
   "author": "AbianS",
   "license": "MIT",
   "devDependencies": {
