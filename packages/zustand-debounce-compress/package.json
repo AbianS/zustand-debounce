@@ -1,6 +1,6 @@
 {
   "name": "zustand-debounce-compress",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Compression plugin for zustand-debounce - reduces storage size with LZ-based compression",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -51,7 +51,7 @@
     "zustand-debounce": "workspace:*"
   },
   "peerDependencies": {
-    "zustand-debounce": ">=2.3.0"
+    "zustand-debounce": ">=2.3.1"
   },
   "size-limit": [
     {
