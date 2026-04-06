@@ -7,6 +7,7 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     }
@@ -17,8 +18,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsup --config tsup.config.ts --dts --watch",
-    "build": "tsup --config tsup.config.ts --dts",
+    "dev": "tsup --config tsup.config.ts --watch",
+    "build": "tsup --config tsup.config.ts",
     "test": "jest",
     "test:cov": "jest --coverage",
     "size": "size-limit"
@@ -32,15 +33,15 @@
   "author": "AbianS",
   "license": "MIT",
   "devDependencies": {
-    "@size-limit/preset-small-lib": "11.2.0",
+    "@size-limit/preset-small-lib": "12.0.1",
     "@types/jest": "30.0.0",
-    "@types/node": "24.10.1",
-    "jest": "30.2.0",
-    "size-limit": "11.2.0",
-    "ts-jest": "29.4.5",
+    "@types/node": "25.5.2",
+    "jest": "30.3.0",
+    "size-limit": "12.0.1",
+    "ts-jest": "29.4.9",
     "ts-node": "10.9.2",
-    "tsup": "8.5.0",
-    "typescript": "5.9.3"
+    "tsup": "8.5.1",
+    "typescript": "6.0.2"
   },
   "peerDependencies": {
     "zustand": ">=4.0.0"
