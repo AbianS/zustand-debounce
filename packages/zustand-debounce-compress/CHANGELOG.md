@@ -1,5 +1,14 @@
 # zustand-debounce-compress
 
+## 2.0.1
+
+### Patch Changes
+
+- [#18](https://github.com/AbianS/zustand-debounce/pull/18) [`06030c2`](https://github.com/AbianS/zustand-debounce/commit/06030c2622078c412ded634bc3c55c6d89188a2f) Thanks [@AbianS](https://github.com/AbianS)! - chore: update dependencies
+
+- Updated dependencies [[`06030c2`](https://github.com/AbianS/zustand-debounce/commit/06030c2622078c412ded634bc3c55c6d89188a2f)]:
+  - zustand-debounce@2.3.1
+
 ## 2.0.0
 
 ### Major Changes
