@@ -4,7 +4,13 @@ export const tsup: Options = {
   splitting: true,
   cjsInterop: true,
   clean: true,
-  dts: false,
+  dts: {
+    compilerOptions: {
+      // tsup hardcodes baseUrl:"." internally during DTS generation (tsup#6837).
+      // ignoreDeprecations scoped here so the main tsconfig stays clean.
+      ignoreDeprecations: '6.0',
+    },
+  },
   format: ['esm', 'cjs'],
   bundle: true,
   minify: true,

@@ -1,7 +1,15 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.10/schema.json",
   "formatter": {
-    "ignore": ["node_modules", "dist", ".next", "logs", "postgres", ".turbo"],
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/.next",
+      "!**/logs",
+      "!**/postgres",
+      "!**/.turbo"
+    ],
     "enabled": true,
     "formatWithErrors": false,
     "indentStyle": "space",
@@ -10,18 +18,7 @@
     "lineWidth": 80,
     "attributePosition": "auto"
   },
-  "organizeImports": {
-    "enabled": true,
-    "ignore": [
-      "node_modules",
-      "dist",
-      ".next",
-      "logs",
-      "postgres",
-      ".turbo",
-      "coverage"
-    ]
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
@@ -72,14 +69,15 @@
         "noPrototypeBuiltins": "off"
       }
     },
-    "ignore": [
-      "node_modules",
-      "dist",
-      ".next",
-      "logs",
-      "postgres",
-      ".turbo",
-      "coverage"
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/.next",
+      "!**/logs",
+      "!**/postgres",
+      "!**/.turbo",
+      "!**/coverage"
     ]
   },
   "javascript": {
