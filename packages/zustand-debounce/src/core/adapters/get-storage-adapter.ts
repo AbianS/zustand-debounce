@@ -9,7 +9,7 @@ export type AdapterIdentifier =
 function createMemoryStorage(): StateStorage {
   const store: Record<string, string> = {};
   return {
-    getItem: async (key: string) => store[key] || null,
+    getItem: async (key: string) => store[key] ?? null,
     setItem: async (key: string, value: string) => {
       store[key] = value;
     },
@@ -36,7 +36,7 @@ export function getStorageAdapter(identifier: AdapterIdentifier): StateStorage {
         removeItem: async (key: string) => window.localStorage.removeItem(key),
       };
     }
-    throw new Error('localStorage no está disponible.');
+    throw new Error('localStorage is not available.');
   }
   if (identifier === 'sessionStorage') {
     if (typeof window !== 'undefined' && window.sessionStorage) {
@@ -48,10 +48,10 @@ export function getStorageAdapter(identifier: AdapterIdentifier): StateStorage {
           window.sessionStorage.removeItem(key),
       };
     }
-    throw new Error('sessionStorage no está disponible.');
+    throw new Error('sessionStorage is not available.');
   }
   if (identifier === 'memoryStorage') {
     return createMemoryStorage();
   }
-  throw new Error(`Adaptador de almacenamiento no soportado: ${identifier}`);
+  throw new Error(`Unsupported storage adapter: ${identifier}`);
 }

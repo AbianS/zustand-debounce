@@ -30,14 +30,14 @@ interface Plugin {
 
 ### Execution Flow
 
-**On Write (setItem):**
+**On Write (when the debounce fires):**
 ```
-User State → Serialization → TTL → Retry → Throttle → Plugin 1 → Plugin 2 → Storage
+State → JSON → TTL envelope → serialize → Plugin 1 → Plugin 2 → Storage (with retries)
 ```
 
 **On Read (getItem):**
 ```
-Storage → Plugin 1 → Plugin 2 → Serialization → TTL → User State
+Storage → Plugin 1 → Plugin 2 → deserialize → TTL check → JSON → State
 ```
 
 Plugins are executed **in array order**, allowing you to compose multiple transformations predictably.

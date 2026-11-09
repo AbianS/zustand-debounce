@@ -59,10 +59,18 @@ debounceTime: 1000
 // Only throttle: Maximum one write every 5 seconds
 throttleTime: 5000
 
-// Both: Wait 1 second, but never more than 5 seconds
+// Wait 1 second after the last change, but never more than 5 seconds
 debounceTime: 1000,
-throttleTime: 5000
+maxWait: 5000
 ```
+
+### What happens if the user closes the tab before the debounce fires?
+
+Nothing is lost: pending writes are flushed when the page is hidden or closed (`pagehide` / `visibilitychange`). You can also call `storage.flush()` yourself, for example before logging out.
+
+### Can several stores share the same storage instance?
+
+Yes. The debounce is per key (the `name` of each store), so one store never cancels another store's pending write.
 
 ### When to use `immediately: true`?
 
@@ -106,9 +114,12 @@ retryDelay: 2000
 Quite the opposite! Zustand Debounce **improves** performance:
 
 - ✅ Reduces I/O operations to storage
-- ✅ Prevents main thread blocking
-- ✅ Only 1.74 kB overhead
+- ✅ Serializes the state only when writing, not on every change
+- ✅ Writes during idle time, so it doesn't block the main thread
+- ✅ Only 1.4 kB overhead
 - ✅ Zero external dependencies
+
+See the [benchmarks](./performance#benchmark).
 
 ### Does it work with React DevTools?
 
@@ -124,8 +135,8 @@ Yes, fully compatible. Zustand Debounce doesn't interfere with:
 
 **Possible causes:**
 
-1. **`debounceTime` too high**: Changes are still being "debounced"
-2. **Storage error**: Check console for errors
+1. **`debounceTime` too high**: Changes are still being "debounced" (add `maxWait` if changes never stop)
+2. **Storage error**: Check console for errors (failed writes are logged unless you pass `onError`)
 3. **Storage full**: localStorage has space limits
 
 **Solutions:**
@@ -142,10 +153,9 @@ const storage = createDebouncedJSONStorage('localStorage', {
 
 ### Error: "localStorage is not available"
 
-This occurs in non-browser environments (SSR, Node.js):
+Creating the storage no longer throws on the server: the adapter is resolved on first use. If the store tries to read during SSR, `persist` reports the error to `onRehydrateStorage` and hydration simply happens in the browser. To avoid it entirely, pick the adapter per environment or use zustand's `skipHydration`:
 
 ```typescript
-// Solution: Detect environment
 const storage = createDebouncedJSONStorage(
   typeof window !== 'undefined' ? 'localStorage' : 'memoryStorage',
   { debounceTime: 1000 }
@@ -154,12 +164,12 @@ const storage = createDebouncedJSONStorage(
 
 ### Retries are not working
 
-Verify that you have the correct parameters:
+Retries are enabled with `maxRetries` (retries after the first attempt). `retryDelay` is optional:
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   maxRetries: 3,     // ✅ Required
-  retryDelay: 1000,  // ✅ Required
+  retryDelay: 1000,  // Optional, defaults to 0
   onRetry: (key, attempt, error, delay) => {
     console.log(`Retry ${attempt}: ${error.message}`);
   }
@@ -194,7 +204,7 @@ const storage = createDebouncedJSONStorage(reactNativeAdapter, {
 
 ### Does it work with Next.js?
 
-Perfectly compatible. For SSR:
+Perfectly compatible. Creating the store on the server does not throw; to skip reading storage during SSR:
 
 ```typescript
 const storage = createDebouncedJSONStorage(
@@ -240,14 +250,9 @@ const useUIStore = create(persist(..., {
 const sensitiveStorage = createDebouncedJSONStorage('sessionStorage', {
   debounceTime: 0, // No delay for sensitive data
   ttl: 30 * 60 * 1000, // Expires in 30 minutes
-  serialize: (data) => {
-    // Encrypt before saving
-    return encrypt(JSON.stringify(data));
-  },
-  deserialize: (str) => {
-    // Decrypt when reading
-    return JSON.parse(decrypt(str));
-  }
+  // serialize receives the JSON string that is about to be stored
+  serialize: (str) => encrypt(str),
+  deserialize: (str) => decrypt(str),
 });
 ```
 

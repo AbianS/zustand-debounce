@@ -39,6 +39,13 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
   throttleTime?: number;
 
   /**
+   * Maximum time in milliseconds a change may wait before being written,
+   * even if changes keep coming (like lodash's `maxWait`). `0` disables it.
+   * @default 0
+   */
+  maxWait?: number;
+
+  /**
    * If true, changes will be written to storage immediately without debouncing.
    * Useful for critical updates that need to be persisted right away.
    * @default false
@@ -46,7 +53,7 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
   immediately?: boolean;
 
   /**
-   * The maximum number of retry attempts for failed write operations.
+   * How many times a failed write is retried after the first attempt.
    * @default 0
    */
   maxRetries?: number;
@@ -59,8 +66,15 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
   retryDelay?: number;
 
   /**
+   * Multiplier applied to `retryDelay` on each retry: `retryDelay * backoffMultiplier ** (attempt - 1)`.
+   * @default 1
+   */
+  backoffMultiplier?: number;
+
+  /**
    * Callback function triggered immediately when setItem is invoked.
    * Called before any debounce delay is applied.
+   * Note: providing it serializes the state on every change.
    * @param key - The storage key being written
    * @param value - The value being stored
    */
@@ -99,12 +113,14 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
   onError?: (key: string, error: any) => void;
 
   /**
-   * Custom function to serialize the state before saving to storage.
-   * @default JSON.stringify
-   * @param state - The state to serialize
+   * Extra transform applied to the stored string (e.g. encryption), only
+   * used together with `deserialize`. Receives the JSON string of the
+   * persisted `{ state, version }` (wrapped by `ttl` if set).
+   * Only runs when the value is actually written, not on every change.
+   * @param str - The JSON string about to be stored
    * @returns The serialized state string
    */
-  serialize?: (state: unknown) => string;
+  serialize?: (str: string) => string;
 
   /**
    * Custom function to deserialize the state after retrieving from storage.
@@ -204,11 +220,4 @@ export interface Plugin {
    * ```
    */
   afterGetItem?: (value: string | null) => string | null | undefined;
-}
-
-export interface IStorage {
-  getItem(key: string): Promise<string | null> | null | string;
-  setItem(key: string, value: string): Promise<unknown> | unknown;
-  removeItem(key: string): Promise<unknown> | unknown;
-  flush?(): Promise<void>;
 }

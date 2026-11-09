@@ -30,7 +30,7 @@ function HomepageHeader() {
         </div>
         <div className={styles.heroStats}>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>1.74 kB</span>
+            <span className={styles.statNumber}>1.4 kB</span>
             <span className={styles.statLabel}>Minified size</span>
           </div>
           <div className={styles.stat}>

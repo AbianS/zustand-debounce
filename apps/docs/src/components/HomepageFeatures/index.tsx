@@ -14,10 +14,10 @@ const FeatureList: FeatureItem[] = [
   {
     title: 'Ultra Lightweight',
     icon: '🪶',
-    badge: '1.74 kB',
+    badge: '1.4 kB',
     description: (
       <>
-        Only <strong>1.74 kB</strong> compressed and no external dependencies.
+        Only <strong>1.4 kB</strong> compressed and no external dependencies.
         Optimized for the best possible performance without compromising
         functionality.
       </>

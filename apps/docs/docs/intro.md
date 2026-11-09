@@ -8,6 +8,10 @@ Welcome to **Zustand Debounce**! 🎉
 
 **Zustand Debounce** is a **lightweight** and **powerful** extension for [Zustand](https://github.com/pmndrs/zustand) that provides a JSON storage system with intelligent debouncing. 
 
+:::tip New version
+The core has been rewritten: lazy serialization, per-key debounce, `flush()`, `maxWait` and up to 4,500× cheaper state changes. **[See what's new →](./whats-new)**
+:::
+
 ## What is Debounce?
 
 Debounce is a programming technique that **delays the execution** of a function until a certain amount of time has passed since the last time it was invoked. In the context of Zustand Debounce:
@@ -23,7 +27,10 @@ Debounce is a programming technique that **delays the execution** of a function 
 Drastically reduces storage write operations, especially useful when you have frequent state changes.
 
 ### 🪶 **Ultra Lightweight**
-Only **1.74 kB** compressed and **zero external dependencies**.
+Only **1.4 kB** compressed and **zero external dependencies**.
+
+### 🛟 **Never Lose the Last Change**
+Pending writes are flushed when the page is hidden or closed, and the state is only serialized when it is actually written.
 
 ### 🛠️ **Easy to use**
 Replace `createJSONStorage` with `createDebouncedJSONStorage` and you're done!
