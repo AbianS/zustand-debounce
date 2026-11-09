@@ -207,7 +207,7 @@ export interface Plugin {
 }
 
 export interface IStorage {
-  getItem(key: string): Promise<string | null> | null | string;
+  getItem(key: string): PromiseLike<string | null> | null | string;
   setItem(key: string, value: string): Promise<unknown> | unknown;
   removeItem(key: string): Promise<unknown> | unknown;
   flush?(): Promise<void>;
