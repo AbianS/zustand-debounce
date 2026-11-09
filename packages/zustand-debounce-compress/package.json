@@ -51,7 +51,7 @@
     "zustand-debounce": "workspace:*"
   },
   "peerDependencies": {
-    "zustand-debounce": ">=2.3.1"
+    "zustand-debounce": ">=3.0.0"
   },
   "size-limit": [
     {
