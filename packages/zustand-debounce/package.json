@@ -10,7 +10,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "repository": "https://github.com/AbianS/zustand-debounce",
   "homepage": "https://abians.github.io/zustand-debounce/",
