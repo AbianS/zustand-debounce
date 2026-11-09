@@ -117,10 +117,10 @@ export interface EnhancedJsonStorageOptions extends JsonStorageOptions {
    * used together with `deserialize`. Receives the JSON string of the
    * persisted `{ state, version }` (wrapped by `ttl` if set).
    * Only runs when the value is actually written, not on every change.
-   * @param state - The JSON string about to be stored
+   * @param str - The JSON string about to be stored
    * @returns The serialized state string
    */
-  serialize?: (state: unknown) => string;
+  serialize?: (str: string) => string;
 
   /**
    * Custom function to deserialize the state after retrieving from storage.

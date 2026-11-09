@@ -11,7 +11,7 @@ Learn how to install and configure **Zustand Debounce** in your project.
 Before installing Zustand Debounce, make sure you have:
 
 - **Node.js** version 16.0 or higher
-- **Zustand** version 4.0.0 or higher installed in your project
+- **Zustand** version 4.5 or higher installed in your project (tested with 4.5 and 5.x)
 
 :::info Note about Zustand
 Zustand Debounce is an extension for Zustand, so you need to have Zustand installed as a dependency in your project.
@@ -88,18 +88,18 @@ If you're using TypeScript, you don't need to install additional types since **Z
 
 ## Bundle Size
 
-Zustand Debounce está optimizado para ser extremadamente ligero:
+Zustand Debounce is built to be extremely light:
 
-- **📦 Bundle size**: 1.74 kB (minified + gzipped)
+- **📦 Bundle size**: 1.4 kB (minified + brotli)
 - **🚀 Zero dependencies**: No additional external dependencies
-- **🌳 Tree-shakable**: Only import what you need
+- **⚡ No runtime import of zustand**: only its types are used
 
 ## Compatibility
 
 | Tool        | Minimum Version | ✅ Compatible |
 |-------------|----------------|---------------|
 | Node.js     | 16.0+          | ✅            |
-| Zustand     | 4.0.0+         | ✅            |
+| Zustand     | 4.5.0+         | ✅            |
 
 ## Next Step
 

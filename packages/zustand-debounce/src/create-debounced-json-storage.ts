@@ -1,7 +1,6 @@
 import type {
   PersistStorage,
   StateStorage,
-  StorageValue,
 } from 'zustand/middleware';
 import {
   type AdapterIdentifier,
@@ -9,6 +8,9 @@ import {
 } from './core/adapters/get-storage-adapter';
 import { PluginManager } from './core/plugin-manager';
 import type { EnhancedJsonStorageOptions } from './types';
+
+// Derived instead of importing StorageValue, which zustand < 4.3 does not export.
+type Value = Parameters<PersistStorage<unknown>['setItem']>[1];
 
 export type DebouncedJSONStorage = PersistStorage<unknown> & {
   /** Writes every pending value right now. Also runs automatically when the page is hidden. */
@@ -51,7 +53,7 @@ export function createDebouncedJSONStorage(
   const api = () => (adapter ??= getStorageAdapter(storageApi));
 
   // Pending values are kept as objects: serialization only happens on the real write.
-  const pending = new Map<string, StorageValue<unknown>>();
+  const pending = new Map<string, Value>();
   const timers = new Map<string, ReturnType<typeof setTimeout>>();
   const lastWrite = new Map<string, number>();
   const pendingSince = new Map<string, number>();
@@ -72,7 +74,7 @@ export function createDebouncedJSONStorage(
 
   // Calls the adapter synchronously (before the first await), so a flush on
   // `pagehide` reaches localStorage before the page goes away.
-  const persist = async (name: string, value: StorageValue<unknown>) => {
+  const persist = async (name: string, value: Value) => {
     const json = JSON.stringify(value, replacer);
     let str =
       typeof ttl === 'number'
@@ -95,7 +97,7 @@ export function createDebouncedJSONStorage(
     }
   };
 
-  const write = (name: string, value: StorageValue<unknown>) =>
+  const write = (name: string, value: Value) =>
     persist(name, value).catch((error) => {
       if (onError) onError(name, error);
       else console.error(`[zustand-debounce] Failed to write "${name}":`, error);
@@ -130,7 +132,7 @@ export function createDebouncedJSONStorage(
       }
       return (
         typeof str === 'string' ? JSON.parse(str, reviver) : str
-      ) as StorageValue<unknown>;
+      ) as Value;
     },
 
     setItem: (name, value) => {

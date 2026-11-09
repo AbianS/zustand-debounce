@@ -383,21 +383,16 @@ export const useGameStore = create<GameState>()(
           // Show warning to player
           showGameMessage('⚠️ Could not save progress');
         },
-        
-        // Custom serialization to compress the save
-        serialize: (state) => {
-          // Only save important data, not functions
-          const saveData = {
-            level: state.level,
-            score: state.score,
-            lives: state.lives,
-            inventory: state.inventory,
-            achievements: state.achievements,
-            settings: state.settings,
-            timestamp: Date.now(),
-          };
-          return JSON.stringify(saveData);
-        },
+      }),
+
+      // Only save important data, not functions
+      partialize: (state) => ({
+        level: state.level,
+        score: state.score,
+        lives: state.lives,
+        inventory: state.inventory,
+        achievements: state.achievements,
+        settings: state.settings,
       }),
     }
   )

@@ -22,11 +22,23 @@ const storage = createDebouncedJSONStorage('localStorage', {
 ### `throttleTime`
 - **Type**: `number`
 - **Default**: `0`  
-- **Description**: Minimum time between write operations.
+- **Description**: Minimum time between write operations. Changes inside the window are delayed, never dropped: the latest value is always written.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
   throttleTime: 5000 // Maximum one write every 5 seconds
+});
+```
+
+### `maxWait`
+- **Type**: `number`
+- **Default**: `0` (disabled)
+- **Description**: Maximum time a change may wait before being written, even if changes keep coming. Without it, a user typing non-stop never lets the debounce settle.
+
+```typescript
+const storage = createDebouncedJSONStorage('localStorage', {
+  debounceTime: 1000, // Wait for 1 second of inactivity...
+  maxWait: 5000       // ...but write at least every 5 seconds
 });
 ```
 
@@ -46,11 +58,11 @@ const storage = createDebouncedJSONStorage('localStorage', {
 ### `maxRetries`
 - **Type**: `number`
 - **Default**: `0`
-- **Description**: Maximum number of retries for failed operations.
+- **Description**: How many times a failed write is retried after the first attempt.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  maxRetries: 3 // Retry up to 3 times
+  maxRetries: 3 // Up to 4 attempts in total
 });
 ```
 
@@ -63,6 +75,19 @@ const storage = createDebouncedJSONStorage('localStorage', {
 const storage = createDebouncedJSONStorage('localStorage', {
   maxRetries: 3,
   retryDelay: 1000 // Wait 1 second between retries
+});
+```
+
+### `backoffMultiplier`
+- **Type**: `number`
+- **Default**: `1`
+- **Description**: Multiplies the delay on each retry. Retry `n` waits `retryDelay * backoffMultiplier ^ (n - 1)`.
+
+```typescript
+const storage = createDebouncedJSONStorage('localStorage', {
+  maxRetries: 3,
+  retryDelay: 1000,
+  backoffMultiplier: 2 // Retries wait 1s, 2s, 4s
 });
 ```
 
@@ -94,6 +119,10 @@ const storage = createDebouncedJSONStorage('localStorage', {
 });
 ```
 
+### `onFlush`
+- **Type**: `(key: string, value: string) => void`
+- **Description**: Executed for each key written by `flush()`, whether you call it or it runs on page hide.
+
 ### `onRetry`
 - **Type**: `(key: string, attempt: number, error: any, delay: number) => void`
 - **Description**: Executed before each retry attempt.
@@ -111,7 +140,7 @@ const storage = createDebouncedJSONStorage('localStorage', {
 
 ### `onError`
 - **Type**: `(key: string, error: any) => void`
-- **Description**: Executed when all retries fail.
+- **Description**: Executed when all retries fail. Without it, the error is logged with `console.error` (it never becomes an unhandled rejection).
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
@@ -125,26 +154,25 @@ const storage = createDebouncedJSONStorage('localStorage', {
 
 ## Custom Serialization
 
+The state is always turned into JSON first, and only when it is actually written (not on every change). `serialize` / `deserialize` are an **extra transform of that JSON string**, for things like encryption. Both must be provided.
+
+:::tip Choosing what to persist
+To persist only part of the state, use zustand's `partialize` option, not `serialize`.
+For compression, use the [`zustand-debounce-compress` plugin](./plugins).
+:::
+
 ### `serialize`
-- **Type**: `(state: unknown) => string`
-- **Default**: `JSON.stringify`
-- **Description**: Custom function to serialize the state.
+- **Type**: `(str: string) => string`
+- **Description**: Receives the JSON string (wrapped by `ttl` if set) and returns what is stored.
 
 ### `deserialize`
 - **Type**: `(str: string) => unknown`
-- **Default**: `JSON.parse`
-- **Description**: Custom function to deserialize the state.
+- **Description**: Reverses `serialize` when reading.
 
 ```typescript
 const storage = createDebouncedJSONStorage('localStorage', {
-  serialize: (state) => {
-    // Custom serialization with compression
-    return LZ.compress(JSON.stringify(state));
-  },
-  deserialize: (str) => {
-    // Custom deserialization with decompression
-    return JSON.parse(LZ.decompress(str));
-  }
+  serialize: (str) => encrypt(str),
+  deserialize: (str) => decrypt(str),
 });
 ```
 
@@ -163,6 +191,25 @@ const storage = createDebouncedJSONStorage('localStorage', {
 
 :::warning Important
 When `ttl` is specified, expired data is automatically removed when attempting to read it.
+:::
+
+## Flushing Pending Writes
+
+`createDebouncedJSONStorage` returns zustand's `PersistStorage` plus a `flush()` method that writes every pending change right away.
+
+```typescript
+const storage = createDebouncedJSONStorage('localStorage', { debounceTime: 2000 });
+
+// e.g. before logging out
+await storage.flush();
+```
+
+`flush()` also runs automatically when the page is hidden or closed (`pagehide` / `visibilitychange`), so the last change is not lost when the user closes the tab.
+
+:::info How writes are scheduled
+- Debounce is **per key**: several stores can share one storage without cancelling each other.
+- While a write is pending, `getItem` returns the pending value, and `removeItem` (e.g. `persist.clearStorage()`) cancels it.
+- When the debounce fires, the write waits for an idle moment (`requestIdleCallback`, at most 1 second) so it does not compete with animations or input.
 :::
 
 ## Option Combinations
@@ -184,16 +231,14 @@ const chatStorage = createDebouncedJSONStorage('localStorage', {
 ```typescript
 const editorStorage = createDebouncedJSONStorage('localStorage', {
   debounceTime: 2000,   // Don't save on every keystroke
-  throttleTime: 10000,  // Maximum every 10 seconds
+  maxWait: 10000,       // But save at least every 10 seconds while typing
   maxRetries: 3,
   onWrite: () => showStatus('Saving...'),
   onSave: () => showStatus('Auto-saved'),
-  serialize: (state) => {
-    // Only save content, not cursor position
-    const { content } = state as { content: string };
-    return JSON.stringify({ content, savedAt: Date.now() });
-  }
 });
+
+// Only persist the content, not the cursor position:
+// persist(..., { name: 'editor', storage: editorStorage, partialize: (s) => ({ content: s.content }) })
 ```
 
 ### Configuration for Critical Data
@@ -218,16 +263,20 @@ const criticalStorage = createDebouncedJSONStorage('localStorage', {
 |--------|------|---------|-------------|
 | `debounceTime` | `number` | `0` | Wait time before saving |
 | `throttleTime` | `number` | `0` | Minimum time between writes |
+| `maxWait` | `number` | `0` | Maximum time a change may wait |
 | `immediately` | `boolean` | `false` | Save without delay |
-| `maxRetries` | `number` | `0` | Maximum number of retries |
+| `maxRetries` | `number` | `0` | Retries after the first attempt |
 | `retryDelay` | `number` | `0` | Time between retries |
+| `backoffMultiplier` | `number` | `1` | Delay multiplier per retry |
 | `ttl` | `number` | `0` | Data lifetime |
+| `plugins` | `Plugin[]` | `[]` | Transforms of the stored string |
 | `onWrite` | `function` | - | Callback on write |
 | `onSave` | `function` | - | Callback on save |
+| `onFlush` | `function` | - | Callback per key written by `flush()` |
 | `onRetry` | `function` | - | Callback on retry |
 | `onError` | `function` | - | Callback on error |
-| `serialize` | `function` | `JSON.stringify` | Custom serialization |
-| `deserialize` | `function` | `JSON.parse` | Custom deserialization |
+| `serialize` | `function` | - | Extra transform of the stored string |
+| `deserialize` | `function` | - | Reverses `serialize` |
 
 ---
 
@@ -236,6 +285,7 @@ const criticalStorage = createDebouncedJSONStorage('localStorage', {
 - **Medium debounce (500-2000ms)**: For frequent changes like forms
 - **High debounce (2000-5000ms)**: For text editors or non-critical data
 - **Throttle**: Use when you want a maximum limit of writes per time
+- **maxWait**: Use when changes can be continuous (typing, dragging)
 :::
 
 ## Next Steps

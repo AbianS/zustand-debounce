@@ -4,15 +4,25 @@
 
 Zustand Debounce enhances the capabilities of Zustand by introducing a debounced JSON state storage system. By delaying and grouping write operations to storage, you can significantly reduce the number of write operations, improving performance and efficiency in your applications.
 
+> **New version:** the core has been rewritten — lazy serialization, per-key debounce, `flush()`, `maxWait`, and state changes up to 4,500× cheaper. Stored data stays compatible with 2.x. [See what's new and the benchmarks →](https://abians.github.io/zustand-debounce/docs/whats-new)
+
 ## 🚀 Features
 
-✅ **Ultra Lightweight:** Only 1.19 kB gzipped 🐙
+✅ **Ultra Lightweight:** Only 1.4 kB (minified + brotli), zero dependencies 🐙
 
 ✅ **Easy Integration:** Seamlessly integrates into your existing projects 🚀
 
 ✅ **Customizable Debounce Time:** Adjust the debounce time to suit your needs ⏳
 
 ✅ **Reduced Write Operations:** Avoid frequent writes to storage, optimizing performance 🔄
+
+✅ **Lazy Serialization:** The state is serialized once per write, not on every change ⚡
+
+✅ **Per-Key Debounce:** Several stores can share one storage without losing writes 🔑
+
+✅ **Never Lose the Last Change:** Pending writes are flushed when the page is hidden or closed, and you can call `flush()` yourself 🛟
+
+✅ **Idle Writes:** Debounced writes run when the browser is idle (`requestIdleCallback`) 💤
 
 ✅ **Retry Mechanism:** Automatically retries failed write operations with customizable settings 🔁
 
@@ -109,19 +119,32 @@ createDebouncedJSONStorage accepts a variety of options to customize its behavio
 | **Option**           | **Type**                              | **Default**       | **Description**                                                                                                                                                                                                                     |
 |---------------------|---------------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `debounceTime`      | `number`                              | `0`               | The debounce time in milliseconds. Write operations will be delayed by this amount of time. If multiple writes occur within this period, they will be grouped into a single write.                                                  |
-| `throttleTime`      | `number`                              | `0`               | The throttle time in milliseconds. Ensures that write operations are not performed more frequently than this interval.                                                                                                               |
+| `throttleTime`      | `number`                              | `0`               | The throttle time in milliseconds. Ensures that write operations are not performed more frequently than this interval. Changes are delayed, never dropped: the latest value is always written.                                     |
+| `maxWait`           | `number`                              | `0`               | Maximum time in milliseconds a change may wait before being written, even if changes keep coming (like lodash's `maxWait`). `0` disables it.                                                                                       |
 | `immediately`       | `boolean`                             | `false`           | If set to `true`, write operations will occur immediately without any delay.                                                                                                                                                        |
-| `maxRetries`        | `number`                              | `0`               | The maximum number of times to retry a failed write operation.                                                                                                                                                                      |
+| `maxRetries`        | `number`                              | `0`               | How many times a failed write is retried after the first attempt.                                                                                                                                                                   |
 | `retryDelay`        | `number`                              | `0`               | The delay in milliseconds between retry attempts for failed write operations.                                                                                                                                                       |
-| `backoffMultiplier` | `number`                              | `1`               | The multiplier used for exponential backoff between retry attempts. Each retry will wait `retryDelay * (backoffMultiplier ^ attempt)` milliseconds.                                                                                  |
+| `backoffMultiplier` | `number`                              | `1`               | The multiplier used for exponential backoff between retry attempts. Retry `n` waits `retryDelay * backoffMultiplier ^ (n - 1)` milliseconds.                                                                                         |
 | `onWrite`           | `(key: string, value: string) => void` | `undefined`       | A callback function that is called immediately when `setItem` is invoked, before the debounce delay.                                                                                                                                |
 | `onSave`            | `(key: string, value: string) => void` | `undefined`       | A callback function that is called after the debounce delay when the data is actually saved to storage.                                                                                                                             |
-| `onFlush`           | `(key: string, value: string) => void` | `undefined`       | A callback function that is called when a manual flush operation is executed.                                                                                                                                                      |
+| `onFlush`           | `(key: string, value: string) => void` | `undefined`       | A callback function that is called for each key written by `flush()` (manual or on page hide).                                                                                                                                     |
 | `onRetry`           | `(key: string, attempt: number, error: any, delay: number) => void` | `undefined` | A callback function that is called before each retry attempt, providing information about the retry attempt number, the error that occurred, and the delay before the next attempt.                                    |
 | `onError`           | `(key: string, error: any) => void`    | `undefined`       | A callback function that is called when all retry attempts have failed.                                                                                                                                                            |
-| `serialize`         | `(state: unknown) => string`           | `JSON.stringify`  | A custom function to serialize the state before saving it to storage.                                                                                                                                                               |
-| `deserialize`       | `(str: string) => unknown`             | `JSON.parse`      | A custom function to deserialize the state after retrieving it from storage.                                                                                                                                                        |
+| `serialize`         | `(str: string) => string`              | `undefined`       | Extra transform applied to the stored JSON string (e.g. encryption). Only used together with `deserialize`. To choose *what* is persisted, use zustand's `partialize`.                                                             |
+| `deserialize`       | `(str: string) => unknown`             | `undefined`       | Reverses `serialize` when reading. Only used together with `serialize`.                                                                                                                                                             |
 | `ttl`               | `number`                              | `0`               | Time-to-live in milliseconds for the stored data. After this period, the data will be considered expired and removed from storage.                                                                                                  |
+| `plugins`           | `Plugin[]`                             | `[]`              | Plugins that transform the stored string (see [Plugin System](#-plugin-system)).                                                                                                                                                    |
+
+### 🛟 Flushing pending writes
+
+The returned storage has a `flush()` method that writes every pending change right away. It also runs automatically when the page is hidden or closed (`pagehide` / `visibilitychange`), so the last change is not lost.
+
+```ts
+const storage = createDebouncedJSONStorage('localStorage', { debounceTime: 2000 });
+
+// e.g. before logging out or navigating away manually
+await storage.flush();
+```
 
 
 ## 🌟 Advanced Usage
@@ -134,8 +157,7 @@ import { createDebouncedJSONStorage } from 'zustand-debounce';
 // Example with localStorage
 const localStorageExample = createDebouncedJSONStorage('localStorage', {
   debounceTime: 1000, // Delay write operations by 1 second
-  throttleTime: 5000, // Ensure writes are at least 5 seconds apart
-  immediately: false, // Do not write immediately
+  maxWait: 5000, // But write at least every 5 seconds while changes keep coming
   maxRetries: 3, // Retry failed writes up to 3 times
   retryDelay: 2000, // Wait 2 seconds between retries
   ttl: 86400000, // Data expires after 24 hours
@@ -145,14 +167,13 @@ const localStorageExample = createDebouncedJSONStorage('localStorage', {
   onSave: (key, value) => {
     console.log(`Data saved for ${key}`);
   },
-  serialize: (state) => {
-    // Custom serialization logic
-    return JSON.stringify(state);
-  },
-  deserialize: (str) => {
-    // Custom deserialization logic
-    return JSON.parse(str);
-  },
+});
+
+// Example with encryption of the stored string
+const encryptedExample = createDebouncedJSONStorage('localStorage', {
+  debounceTime: 1000,
+  serialize: (str) => encrypt(str), // receives the JSON string
+  deserialize: (str) => decrypt(str),
 });
 
 // Example with sessionStorage and advanced retry + events
@@ -160,7 +181,7 @@ const sessionStorageExample = createDebouncedJSONStorage('sessionStorage', {
   debounceTime: 500,
   maxRetries: 3,
   retryDelay: 1000,
-  backoffMultiplier: 2, // Each retry will wait longer: 1s, 2s, 4s
+  backoffMultiplier: 2, // Retries wait 1s, 2s, 4s
   onRetry: (key, attempt, error, delay) => {
     console.log(`Retry ${attempt} for ${key} after ${delay}ms. Error: ${error.message}`);
   },
@@ -168,7 +189,7 @@ const sessionStorageExample = createDebouncedJSONStorage('sessionStorage', {
     console.error(`All retries failed for ${key}:`, error);
   },
   onFlush: (key, value) => {
-    console.log(`Manual flush executed for ${key}`);
+    console.log(`Flushed ${key}`);
   }
 });
 
