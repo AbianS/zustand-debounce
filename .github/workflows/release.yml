@@ -41,14 +41,12 @@ jobs:
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm release
-          version: pnpm version-packages
-          commit: 'chore: release packages'
-          title: 'chore: release packages'
+          # `pnpm release` builds the packages and calls changeset publish
+          publish-script: pnpm release
+          version-script: pnpm version-packages
+          commit-message: 'chore: release packages'
+          pr-title: 'chore: release packages'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
