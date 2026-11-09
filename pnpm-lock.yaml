@@ -229,10 +229,6 @@ importers:
         version: 6.0.3
 
   packages/zustand-debounce:
-    dependencies:
-      zustand:
-        specifier: '>=4.0.0'
-        version: 5.1.0(@types/react@19.1.13)(react@19.3.1)
     devDependencies:
       '@size-limit/preset-small-lib':
         specifier: 14.3.0
@@ -261,6 +257,9 @@ importers:
       typescript:
         specifier: 6.0.3
         version: 6.0.3
+      zustand:
+        specifier: 5.1.0
+        version: 5.1.0(@types/react@19.1.13)(react@19.3.1)
 
   packages/zustand-debounce-compress:
     dependencies:

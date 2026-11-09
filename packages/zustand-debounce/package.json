@@ -41,7 +41,8 @@
     "ts-jest": "29.4.15",
     "ts-node": "10.9.2",
     "tsup": "9.0.0",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "zustand": "5.1.0"
   },
   "peerDependencies": {
     "zustand": ">=4.0.0"
